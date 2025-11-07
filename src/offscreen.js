@@ -42,7 +42,7 @@ async function initializeMermaid() {
       securityLevel: 'loose',
       lineHeight: 1.6,
       themeVariables: {
-        fontSize: '14px',
+        fontSize: '12px',
         fontFamily: "'SimSun', 'Times New Roman', Times, serif"
       },
       flowchart: {
