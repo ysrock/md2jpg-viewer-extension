@@ -419,3 +419,68 @@ body.toc-hidden #markdown-content {
 .svg-placeholder .async-spinner {
   border-top-color: #ffc107;
 }
+
+/* Print Styles - Only show content area */
+@media print {
+  /* Hide TOC and overlay completely when printing */
+  #table-of-contents,
+  #toc-overlay {
+    display: none !important;
+  }
+  
+  /* Reset wrapper margin for printing */
+  #markdown-wrapper {
+    margin-left: 0 !important;
+  }
+  
+  /* Optimize content area for printing */
+  #markdown-content {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    max-width: none !important;
+    width: 100% !important;
+    background: white !important;
+  }
+  
+  /* Adjust body for print */
+  body {
+    background-color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Hide processing indicators when printing */
+  .processing-indicator,
+  .async-placeholder {
+    display: none !important;
+  }
+  
+  /* Ensure proper page breaks */
+  #markdown-content h1,
+  #markdown-content h2,
+  #markdown-content h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  
+  #markdown-content pre,
+  #markdown-content blockquote,
+  #markdown-content table {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  /* Optimize table printing */
+  #markdown-content table {
+    margin: 10px auto !important;
+  }
+  
+  /* Ensure images fit on page */
+  #markdown-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
