@@ -120,7 +120,7 @@ class DocxExporter {
               levels: [
                 {
                   level: 0,
-                  format: 'decimal',
+                  format: 'decimal', // 1. 2. 3.
                   text: '%1.',
                   alignment: AlignmentType.START,
                   style: {
@@ -134,7 +134,7 @@ class DocxExporter {
                 },
                 {
                   level: 1,
-                  format: 'decimal',
+                  format: 'lowerRoman', // i. ii. iii. iv. v. vi. vii.
                   text: '%2.',
                   alignment: AlignmentType.START,
                   style: {
@@ -148,13 +148,97 @@ class DocxExporter {
                 },
                 {
                   level: 2,
-                  format: 'decimal',
+                  format: 'lowerLetter', // a. b. c.
                   text: '%3.',
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
                       indent: { 
                         left: convertInchesToTwip(1.5),  // 1.5 inch for double-nested level
+                        hanging: convertInchesToTwip(0.30)
+                      },
+                    },
+                  },
+                },
+                {
+                  level: 3,
+                  format: 'lowerLetter', // a. b. c. (same as level 2)
+                  text: '%4.',
+                  alignment: AlignmentType.START,
+                  style: {
+                    paragraph: {
+                      indent: { 
+                        left: convertInchesToTwip(2.0),  // 2.0 inch for level 4
+                        hanging: convertInchesToTwip(0.30)
+                      },
+                    },
+                  },
+                },
+                {
+                  level: 4,
+                  format: 'lowerLetter', // a. b. c. (same as level 2)
+                  text: '%5.',
+                  alignment: AlignmentType.START,
+                  style: {
+                    paragraph: {
+                      indent: { 
+                        left: convertInchesToTwip(2.5),  // 2.5 inch for level 5
+                        hanging: convertInchesToTwip(0.30)
+                      },
+                    },
+                  },
+                },
+                {
+                  level: 5,
+                  format: 'lowerLetter', // a. b. c. (same as level 2)
+                  text: '%6.',
+                  alignment: AlignmentType.START,
+                  style: {
+                    paragraph: {
+                      indent: { 
+                        left: convertInchesToTwip(3.0),  // 3.0 inch for level 6
+                        hanging: convertInchesToTwip(0.30)
+                      },
+                    },
+                  },
+                },
+                {
+                  level: 6,
+                  format: 'lowerLetter', // a. b. c. (same as level 2)
+                  text: '%7.',
+                  alignment: AlignmentType.START,
+                  style: {
+                    paragraph: {
+                      indent: { 
+                        left: convertInchesToTwip(3.5),  // 3.5 inch for level 7
+                        hanging: convertInchesToTwip(0.30)
+                      },
+                    },
+                  },
+                },
+                {
+                  level: 7,
+                  format: 'lowerLetter', // a. b. c. (same as level 2)
+                  text: '%8.',
+                  alignment: AlignmentType.START,
+                  style: {
+                    paragraph: {
+                      indent: { 
+                        left: convertInchesToTwip(4.0),  // 4.0 inch for level 8
+                        hanging: convertInchesToTwip(0.30)
+                      },
+                    },
+                  },
+                },
+                {
+                  level: 8,
+                  format: 'lowerLetter', // a. b. c. (same as level 2)
+                  text: '%9.',
+                  alignment: AlignmentType.START,
+                  style: {
+                    paragraph: {
+                      indent: { 
+                        left: convertInchesToTwip(4.5),  // 4.5 inch for level 9
                         hanging: convertInchesToTwip(0.30)
                       },
                     },
@@ -952,9 +1036,27 @@ class DocxExporter {
   async convertListItem(ordered, node, level, listInstance) {
     const items = [];
     
+    // Check if this is a task list item (GFM extension)
+    const isTaskList = node.checked !== null && node.checked !== undefined;
+    
     for (const child of node.children) {
       if (child.type === 'paragraph') {
         const children = await this.convertInlineNodes(child.children);
+        
+        // For task lists, prepend checkbox symbol
+        if (isTaskList) {
+          const checkboxSymbol = node.checked ? '☒' : '☐';  // ☒ for checked, ☐ for unchecked
+          children.unshift(new TextRun({
+            text: checkboxSymbol + ' ',
+            font: {
+              ascii: 'Times New Roman',
+              eastAsia: 'SimSun',
+              hAnsi: 'Times New Roman',
+              cs: 'Times New Roman',
+            },
+            size: 28,
+          }));
+        }
         
         const paragraphConfig = {
           children: children,
@@ -965,7 +1067,8 @@ class DocxExporter {
         };
         
         // Use numbering for ordered lists, bullet for unordered lists
-        if (ordered) {
+        // Task lists use bullet points
+        if (ordered && !isTaskList) {
           paragraphConfig.numbering = {
             reference: 'default-ordered-list',
             level: level,

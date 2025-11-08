@@ -318,6 +318,19 @@ body.toc-hidden #markdown-wrapper {
   margin: 16px 0;
 }
 
+/* Ordered list style by level */
+#markdown-content ol {
+  list-style-type: decimal; /* 1. 2. 3. */
+}
+
+#markdown-content ol ol {
+  list-style-type: lower-roman; /* i. ii. iii. iv. v. vi. vii. */
+}
+
+#markdown-content ol ol ol {
+  list-style-type: lower-alpha; /* a. b. c. */
+}
+
 #markdown-content li {
   margin: 0.25em 0;
 }
