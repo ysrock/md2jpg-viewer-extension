@@ -68,29 +68,29 @@ class DocxExporter {
     try {
       // Set base URL for resolving relative image paths
       this.setBaseUrl(window.location.href);
-      
+
       // Initialize progress tracking
       this.progressCallback = onProgress;
       this.totalResources = 0;
       this.processedResources = 0;
-      
+
       // Initialize MathJax first
       await this.initializeMathJax();
-      
+
       // Parse markdown to AST
       const ast = this.parseMarkdown(markdown);
-      
+
       // Count resources that need processing (images, mermaid, html, svg)
       this.totalResources = this.countResources(ast);
-      
+
       // Report initial progress
       if (onProgress && this.totalResources > 0) {
         onProgress(0, this.totalResources);
       }
-      
+
       // Convert AST to docx elements
       const sections = await this.convertAstToDocx(ast);
-      
+
       // Create document
       const doc = new Document({
         numbering: {
@@ -105,7 +105,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(0.5),  // 0.5 inch left indent
                         hanging: convertInchesToTwip(0.30) // 0.30 inch hanging indent for number spacing
                       },
@@ -119,7 +119,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(1.0),  // 1.0 inch for nested level
                         hanging: convertInchesToTwip(0.30)
                       },
@@ -133,7 +133,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(1.5),  // 1.5 inch for double-nested level
                         hanging: convertInchesToTwip(0.30)
                       },
@@ -147,7 +147,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(2.0),  // 2.0 inch for level 4
                         hanging: convertInchesToTwip(0.30)
                       },
@@ -161,7 +161,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(2.5),  // 2.5 inch for level 5
                         hanging: convertInchesToTwip(0.30)
                       },
@@ -175,7 +175,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(3.0),  // 3.0 inch for level 6
                         hanging: convertInchesToTwip(0.30)
                       },
@@ -189,7 +189,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(3.5),  // 3.5 inch for level 7
                         hanging: convertInchesToTwip(0.30)
                       },
@@ -203,7 +203,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(4.0),  // 4.0 inch for level 8
                         hanging: convertInchesToTwip(0.30)
                       },
@@ -217,7 +217,7 @@ class DocxExporter {
                   alignment: AlignmentType.START,
                   style: {
                     paragraph: {
-                      indent: { 
+                      indent: {
                         left: convertInchesToTwip(4.5),  // 4.5 inch for level 9
                         hanging: convertInchesToTwip(0.30)
                       },
@@ -378,19 +378,19 @@ class DocxExporter {
           children: sections,
         }],
       });
-      
+
       // Generate blob
       try {
         const blob = await Packer.toBlob(doc);
-        
+
         // Download file
         this.downloadBlob(blob, filename);
-        
+
         // Clean up progress tracking
         this.progressCallback = null;
         this.totalResources = 0;
         this.processedResources = 0;
-        
+
         return { success: true };
       } catch (packError) {
         console.error('Failed to generate DOCX:', packError);
@@ -407,28 +407,28 @@ class DocxExporter {
    */
   countResources(ast) {
     let count = 0;
-    
+
     const countNode = (node) => {
       // Count images (including SVG images)
       if (node.type === 'image') {
         count++;
       }
-      
+
       // Count mermaid code blocks
       if (node.type === 'code' && node.lang === 'mermaid') {
         count++;
       }
-      
+
       // Recursively count in children
       if (node.children) {
         node.children.forEach(countNode);
       }
     };
-    
+
     if (ast.children) {
       ast.children.forEach(countNode);
     }
-    
+
     return count;
   }
 
@@ -451,11 +451,11 @@ class DocxExporter {
       .use(remarkGfm)
       .use(remarkBreaks) // Add line break processing
       .use(remarkMath);
-    
+
     // Parse and transform AST (remark-breaks needs runSync to work)
     const ast = processor.parse(markdown);
     const transformed = processor.runSync(ast);
-    
+
     // Collect link definitions for resolving linkReference nodes
     this.linkDefinitions = new Map();
     visit(transformed, 'definition', (node) => {
@@ -464,7 +464,7 @@ class DocxExporter {
         title: node.title
       });
     });
-    
+
     return transformed;
   }
 
@@ -474,16 +474,16 @@ class DocxExporter {
   async convertAstToDocx(ast) {
     const elements = [];
     let lastNodeType = null;
-    
+
     // Reset list instance counter for each document
     this.listInstanceCounter = 0;
-    
+
     for (const node of ast.children) {
       // Add minimal spacing paragraph between consecutive thematicBreaks to prevent merging
       if (node.type === 'thematicBreak' && lastNodeType === 'thematicBreak') {
         elements.push(new Paragraph({
           text: '',
-          spacing: { 
+          spacing: {
             before: 0,
             after: 0,
             line: 1,  // Minimal line height (almost invisible)
@@ -491,19 +491,19 @@ class DocxExporter {
           },
         }));
       }
-      
+
       // Add spacing paragraph between consecutive tables to prevent merging in DOCX
       if (node.type === 'table' && lastNodeType === 'table') {
         elements.push(new Paragraph({
           text: '',
-          spacing: { 
+          spacing: {
             before: 120,  // 6pt spacing before
             after: 120,   // 6pt spacing after
             line: 240,    // Normal line height
           },
         }));
       }
-      
+
       const converted = await this.convertNode(node);
       if (converted) {
         if (Array.isArray(converted)) {
@@ -512,10 +512,10 @@ class DocxExporter {
           elements.push(converted);
         }
       }
-      
+
       lastNodeType = node.type;
     }
-    
+
     return elements;
   }
 
@@ -526,34 +526,34 @@ class DocxExporter {
     switch (node.type) {
       case 'heading':
         return this.convertHeading(node);
-      
+
       case 'paragraph':
         return await this.convertParagraph(node, parentStyle);
-      
+
       case 'list':
         return await this.convertList(node);
-      
+
       case 'listItem':
         return await this.convertListItem(node);
-      
+
       case 'code':
         return this.convertCodeBlock(node);
-      
+
       case 'blockquote':
         return await this.convertBlockquote(node);
-      
+
       case 'table':
         return await this.convertTable(node);
-      
+
       case 'thematicBreak':
         return this.convertThematicBreak();
-      
+
       case 'html':
         return this.convertHtml(node);
-      
+
       case 'math':
         return this.convertMathBlock(node);
-      
+
       default:
         return null;
     }
@@ -565,12 +565,12 @@ class DocxExporter {
   convertHeading(node) {
     const level = this.getHeadingLevel(node.depth);
     const text = this.extractText(node);
-    
+
     // Calculate spacing in twips (1/20 of a point)
     // H1: larger spacing, H2-H6: smaller spacing
     const spacingBefore = node.depth === 1 ? 240 : 240; // 12pt before
     const spacingAfter = 120; // 6pt after
-    
+
     const paragraphConfig = {
       text: text,
       heading: level,
@@ -580,12 +580,12 @@ class DocxExporter {
         line: 360, // 1.5 line spacing (360 = 1.5 * 240)
       },
     };
-    
+
     // H1 should be centered and larger
     if (node.depth === 1) {
       paragraphConfig.alignment = AlignmentType.CENTER;
     }
-    
+
     return new Paragraph(paragraphConfig);
   }
 
@@ -609,21 +609,21 @@ class DocxExporter {
    */
   async convertParagraph(node, parentStyle = {}) {
     const children = await this.convertInlineNodes(node.children, parentStyle);
-    
+
     if (children.length === 0) {
       // Empty paragraph
       return new Paragraph({
         text: '',
-        spacing: { 
+        spacing: {
           after: 240, // 16px -> 12pt
           line: 360,  // 1.5 line spacing
         },
       });
     }
-    
+
     return new Paragraph({
       children: children,
-      spacing: { 
+      spacing: {
         after: 240, // 16px -> 12pt
         line: 360,  // 1.5 line spacing
       },
@@ -635,7 +635,7 @@ class DocxExporter {
    */
   async convertInlineNodes(nodes, parentStyle = {}) {
     const runs = [];
-    
+
     // Default font settings matching CSS: 14px = 28 half-points
     // Use SimSun for better Chinese character support
     const defaultStyle = {
@@ -648,7 +648,7 @@ class DocxExporter {
       size: 28, // 14pt (half-points)
       ...parentStyle,
     };
-    
+
     for (const node of nodes) {
       const converted = await this.convertInlineNode(node, defaultStyle);
       if (converted) {
@@ -659,7 +659,7 @@ class DocxExporter {
         }
       }
     }
-    
+
     return runs;
   }
 
@@ -673,16 +673,16 @@ class DocxExporter {
           text: node.value,
           ...parentStyle,
         });
-      
+
       case 'strong':
         return await this.convertInlineNodes(node.children, { ...parentStyle, bold: true });
-      
+
       case 'emphasis':
         return await this.convertInlineNodes(node.children, { ...parentStyle, italics: true });
-      
+
       case 'delete':
         return await this.convertInlineNodes(node.children, { ...parentStyle, strike: true });
-      
+
       case 'inlineCode':
         return new TextRun({
           text: node.value,
@@ -693,22 +693,22 @@ class DocxExporter {
           },
           ...parentStyle,
         });
-      
+
       case 'link':
         return await this.convertLink(node, parentStyle);
-      
+
       case 'linkReference':
         return await this.convertLinkReference(node, parentStyle);
-      
+
       case 'image':
         return await this.convertImage(node);
-      
+
       case 'inlineMath':
         return await this.convertInlineMath(node, parentStyle);
-      
+
       case 'break':
         return new TextRun({ text: '', break: 1 });
-      
+
       case 'html':
         // Handle inline HTML tags
         const htmlValue = node.value?.trim() || '';
@@ -721,7 +721,7 @@ class DocxExporter {
           text: htmlValue.replace(/<[^>]+>/g, ''),
           ...parentStyle,
         });
-      
+
       default:
         return null;
     }
@@ -733,7 +733,7 @@ class DocxExporter {
   async convertLink(node, parentStyle) {
     const text = this.extractText(node);
     const url = node.url || '#'; // Use '#' for empty links
-    
+
     // Create hyperlink with proper styling
     return new ExternalHyperlink({
       children: [
@@ -758,11 +758,11 @@ class DocxExporter {
   async convertLinkReference(node, parentStyle) {
     const text = this.extractText(node);
     const identifier = node.identifier.toLowerCase();
-    
+
     // Look up the definition for this reference
     const definition = this.linkDefinitions?.get(identifier);
     const url = definition?.url || '#'; // Use '#' if definition not found
-    
+
     // Create hyperlink with proper styling
     return new ExternalHyperlink({
       children: [
@@ -806,7 +806,7 @@ class DocxExporter {
 
       const contentType = match[1];
       const base64Data = match[2];
-      
+
       // Decode base64 to binary
       const binaryString = atob(base64Data);
       const len = binaryString.length;
@@ -814,12 +814,12 @@ class DocxExporter {
       for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
       }
-      
+
       const result = {
         buffer: bytes,  // Return Uint8Array directly
         contentType: contentType
       };
-      
+
       this.imageCache.set(url, result);
       return result;
     }
@@ -836,7 +836,7 @@ class DocxExporter {
             reject(new Error(response.error));
             return;
           }
-          
+
           // Convert base64 to Uint8Array
           const binaryString = atob(response.content);
           const len = binaryString.length;
@@ -844,7 +844,7 @@ class DocxExporter {
           for (let i = 0; i < len; i++) {
             bytes[i] = binaryString.charCodeAt(i);
           }
-          
+
           // Use content type from response, or determine from URL extension
           let contentType = response.contentType;
           if (!contentType) {
@@ -860,12 +860,12 @@ class DocxExporter {
             };
             contentType = contentTypeMap[ext] || 'image/png';
           }
-          
+
           const result = {
             buffer: bytes,
             contentType: contentType
           };
-          
+
           this.imageCache.set(url, result);
           resolve(result);
         });
@@ -874,7 +874,7 @@ class DocxExporter {
 
     // Handle local file:// URLs
     const absoluteUrl = this.baseUrl ? new URL(url, this.baseUrl).href : url;
-    
+
     return new Promise((resolve, reject) => {
       chrome.runtime.sendMessage({
         type: 'READ_LOCAL_FILE',
@@ -885,7 +885,7 @@ class DocxExporter {
           reject(new Error(response.error));
           return;
         }
-        
+
         // Convert base64 to Uint8Array
         const binaryString = atob(response.content);
         const len = binaryString.length;
@@ -893,7 +893,7 @@ class DocxExporter {
         for (let i = 0; i < len; i++) {
           bytes[i] = binaryString.charCodeAt(i);
         }
-        
+
         // Determine content type from file extension
         const ext = url.split('.').pop().toLowerCase();
         const contentTypeMap = {
@@ -905,12 +905,12 @@ class DocxExporter {
           'webp': 'image/webp'
         };
         const contentType = contentTypeMap[ext] || 'image/png';
-        
+
         const result = {
           buffer: bytes,  // Return Uint8Array directly
           contentType: contentType
         };
-        
+
         this.imageCache.set(url, result);
         resolve(result);
       });
@@ -928,17 +928,17 @@ class DocxExporter {
       const blob = new Blob([buffer], { type: contentType });
       const url = URL.createObjectURL(blob);
       const img = new Image();
-      
+
       img.onload = () => {
         URL.revokeObjectURL(url);
         resolve({ width: img.width, height: img.height });
       };
-      
+
       img.onerror = () => {
         URL.revokeObjectURL(url);
         reject(new Error('Failed to load image'));
       };
-      
+
       img.src = url;
     });
   }
@@ -953,12 +953,12 @@ class DocxExporter {
   calculateImageDimensions(originalWidth, originalHeight) {
     const maxWidthInches = 6; // 8.5 - 1 - 1 = 6.5, use 6 for safety
     const maxWidthPixels = maxWidthInches * 96; // 96 DPI = 576 pixels
-    
+
     // If image is smaller than max width, use original size
     if (originalWidth <= maxWidthPixels) {
       return { width: originalWidth, height: originalHeight };
     }
-    
+
     // Scale down proportionally
     const ratio = maxWidthPixels / originalWidth;
     return {
@@ -973,19 +973,19 @@ class DocxExporter {
   async convertImage(node) {
     try {
       // Check if image is SVG
-      const isSvg = node.url.toLowerCase().endsWith('.svg') || 
-                    node.url.toLowerCase().includes('image/svg+xml');
-      
+      const isSvg = node.url.toLowerCase().endsWith('.svg') ||
+        node.url.toLowerCase().includes('image/svg+xml');
+
       if (isSvg) {
         // Handle SVG images by converting to PNG
         const result = await this.convertSvgImageFromUrl(node.url);
         this.reportResourceProgress();
         return result;
       }
-      
+
       // Fetch image as buffer (returns Uint8Array)
       const { buffer, contentType } = await this.fetchImageAsBuffer(node.url);
-      
+
       // Double-check content type to ensure it's not SVG
       if (contentType && contentType.includes('svg')) {
         // Get SVG content and convert to PNG
@@ -994,14 +994,14 @@ class DocxExporter {
         this.reportResourceProgress();
         return result;
       }
-      
+
       // Get image dimensions
-      const { width: originalWidth, height: originalHeight } = 
+      const { width: originalWidth, height: originalHeight } =
         await this.getImageDimensions(buffer, contentType);
-      
+
       // Calculate display dimensions in pixels
       const { width: widthPx, height: heightPx } = this.calculateImageDimensions(originalWidth, originalHeight);
-      
+
       // Determine image type from content type or URL
       let imageType = 'png'; // default
       if (contentType) {
@@ -1021,10 +1021,10 @@ class DocxExporter {
           imageType = ext === 'jpeg' ? 'jpg' : ext;
         }
       }
-      
+
       // Report progress after processing image
       this.reportResourceProgress();
-      
+
       // Create ImageRun with complete parameters
       return new ImageRun({
         data: buffer,
@@ -1043,7 +1043,7 @@ class DocxExporter {
       console.warn('Failed to load image:', node.url, error);
       // Report progress even on error
       this.reportResourceProgress();
-      
+
       // Fallback to text placeholder with more visible formatting
       return new TextRun({
         text: `[图片加载失败: ${node.alt || node.url}]`,
@@ -1061,7 +1061,7 @@ class DocxExporter {
   async convertSvgImageFromUrl(url) {
     try {
       let svgContent;
-      
+
       // Handle data: URLs
       if (url.startsWith('data:image/svg+xml')) {
         const base64Match = url.match(/^data:image\/svg\+xml;base64,(.+)$/);
@@ -1081,7 +1081,7 @@ class DocxExporter {
         const { buffer } = await this.fetchImageAsBuffer(url);
         svgContent = new TextDecoder().decode(buffer);
       }
-      
+
       // Convert SVG to PNG
       return await this.convertSvgImage(svgContent);
     } catch (error) {
@@ -1099,17 +1099,17 @@ class DocxExporter {
    */
   async convertList(node) {
     const items = [];
-    
+
     // Assign a unique instance number for this list to restart numbering
     const listInstance = this.listInstanceCounter++;
-    
+
     for (const item of node.children) {
       const converted = await this.convertListItem(node.ordered, item, 0, listInstance);
       if (converted) {
         items.push(...converted);
       }
     }
-    
+
     return items;
   }
 
@@ -1118,14 +1118,14 @@ class DocxExporter {
    */
   async convertListItem(ordered, node, level, listInstance) {
     const items = [];
-    
+
     // Check if this is a task list item (GFM extension)
     const isTaskList = node.checked !== null && node.checked !== undefined;
-    
+
     for (const child of node.children) {
       if (child.type === 'paragraph') {
         const children = await this.convertInlineNodes(child.children);
-        
+
         // For task lists, prepend checkbox symbol
         if (isTaskList) {
           const checkboxSymbol = node.checked ? '▣' : '☐';  // ▣ for checked, ☐ for unchecked
@@ -1140,15 +1140,15 @@ class DocxExporter {
             size: 28,
           }));
         }
-        
+
         const paragraphConfig = {
           children: children,
-          spacing: { 
+          spacing: {
             after: 60,  // 0.25em spacing between items
             line: 360,  // 1.5 line spacing
           },
         };
-        
+
         // Use numbering for ordered lists, bullet for unordered lists
         // Task lists use bullet points
         if (ordered && !isTaskList) {
@@ -1162,7 +1162,7 @@ class DocxExporter {
             level: level,
           };
         }
-        
+
         items.push(new Paragraph(paragraphConfig));
       } else if (child.type === 'list') {
         // Nested list - use same instance for nested lists
@@ -1171,7 +1171,7 @@ class DocxExporter {
         }
       }
     }
-    
+
     return items;
   }
 
@@ -1183,25 +1183,25 @@ class DocxExporter {
     if (node.lang === 'mermaid') {
       return await this.convertMermaidDiagram(node.value);
     }
-    
+
     const lines = node.value.split('\n');
     const runs = [];
-    
+
     for (let i = 0; i < lines.length; i++) {
       runs.push(new TextRun({
         text: lines[i],
         font: 'Consolas', // Monospace font matching CSS
         size: 28, // 14pt = 28 half-points (same as body text)
       }));
-      
+
       if (i < lines.length - 1) {
         runs.push(new TextRun({ text: '', break: 1 }));
       }
     }
-    
+
     return new Paragraph({
       children: runs,
-      spacing: { 
+      spacing: {
         before: 240, // 16px = 12pt
         after: 240,  // 16px = 12pt
         line: 348,   // 1.45 line height for code blocks
@@ -1227,32 +1227,32 @@ class DocxExporter {
    */
   async convertBlockquote(node, nestLevel = 0) {
     const paragraphs = [];
-    
+
     // Calculate indentation based on nesting level
     // Base indent for first level: 0.3" (same as second level would have been)
     // Each nesting level adds 0.3 inch
     const outerIndent = 0.3 + (nestLevel * 0.3);  // Start at 0.3", add 0.3" per level
-    
+
     // Calculate total width added by borders and padding on left side
     // Left border: 3pt (24/8) ≈ 0.04", Left space: 7pt ≈ 0.1"
     // Total left side ≈ 0.14 inch
     const leftBorderAndPadding = 0.14;
-    
+
     // Calculate total width added by right padding
     // Right space: 7pt ≈ 0.1"
     const rightBorderAndPadding = 0.1;
-    
+
     for (const child of node.children) {
       if (child.type === 'paragraph') {
         const children = await this.convertInlineNodes(child.children, { color: '6A737D' }); // Gray text
         paragraphs.push(new Paragraph({
           children: children,
-          spacing: { 
+          spacing: {
             before: 0,   // No external spacing
             after: 0,    // No external spacing
             line: 360,   // 1.5 line spacing
           },
-          indent: { 
+          indent: {
             left: convertInchesToTwip(outerIndent - leftBorderAndPadding),     // Compensate for left border and padding
             right: convertInchesToTwip(rightBorderAndPadding),                 // Compensate for right padding
           },
@@ -1292,7 +1292,7 @@ class DocxExporter {
         paragraphs.push(...nested);
       }
     }
-    
+
     return paragraphs;
   }
 
@@ -1302,28 +1302,28 @@ class DocxExporter {
   async convertTable(node) {
     const rows = [];
     let isHeaderRow = true;
-    
+
     // Get table alignment info from AST
     const alignments = node.align || [];
-    
+
     // Process table rows
     for (const row of node.children) {
       if (row.type === 'tableRow') {
         const cells = [];
-        
+
         for (let colIndex = 0; colIndex < row.children.length; colIndex++) {
           const cell = row.children[colIndex];
-          
+
           if (cell.type === 'tableCell') {
             // For header row, make text bold
-            const children = isHeaderRow 
+            const children = isHeaderRow
               ? await this.convertInlineNodes(cell.children, { bold: true })
               : await this.convertInlineNodes(cell.children);
-            
+
             // Get cell alignment from table definition
             const cellAlignment = alignments[colIndex];
             let paragraphAlignment;
-            
+
             // Header row: always center horizontally
             // Data rows: use table alignment
             if (isHeaderRow) {
@@ -1339,14 +1339,14 @@ class DocxExporter {
                 paragraphAlignment = AlignmentType.LEFT; // Default
               }
             }
-            
+
             const cellConfig = {
-              children: [new Paragraph({ 
+              children: [new Paragraph({
                 children: children,
                 alignment: paragraphAlignment, // Apply cell alignment to paragraph
                 spacing: {
                   before: 60,
-                  after: 60, 
+                  after: 60,
                   line: 240,
                 },
               })],
@@ -1358,25 +1358,25 @@ class DocxExporter {
                 right: convertInchesToTwip(0.125),  // 0.125 inch = 9pt ≈ 12px
               },
             };
-            
+
             // Header row gets gray background
             if (isHeaderRow) {
               cellConfig.shading = { fill: 'F6F8FA' };
             }
-            
+
             cells.push(new TableCell(cellConfig));
           }
         }
-        
-        rows.push(new TableRow({ 
+
+        rows.push(new TableRow({
           children: cells,
           tableHeader: isHeaderRow, // Mark first row as header
         }));
-        
+
         isHeaderRow = false; // Only first row is header
       }
     }
-    
+
     return new Table({
       rows: rows,
       layout: TableLayoutType.AUTOFIT, // Auto-fit to content
@@ -1422,14 +1422,14 @@ class DocxExporter {
    */
   async convertHtml(node) {
     const htmlContent = node.value.trim();
-    
+
     // Check if it's a significant HTML block that should be converted to image
     // Allow common block elements: div, table, svg, dl, ul, ol, form, fieldset, etc.
     const isBlockElement = /^<(div|table|svg|dl|ul|ol|form|fieldset|section|article|aside|header|footer|nav|main|figure)/i.test(htmlContent);
     if (isBlockElement && htmlContent.length > 100) {
       return await this.convertHtmlDiagram(htmlContent);
     }
-    
+
     // For simple HTML, return placeholder
     return new Paragraph({
       children: [
@@ -1449,10 +1449,10 @@ class DocxExporter {
     try {
       // Use library to convert LaTeX to docx math (with preprocessing)
       const math = convertLatex2Math(node.value);
-      
+
       return new Paragraph({
         children: [math],
-        spacing: { 
+        spacing: {
           before: 120, // 6pt
           after: 120,  // 6pt
         },
@@ -1499,17 +1499,17 @@ class DocxExporter {
    */
   extractText(node) {
     let text = '';
-    
+
     if (node.value) {
       return node.value;
     }
-    
+
     if (node.children) {
       for (const child of node.children) {
         text += this.extractText(child);
       }
     }
-    
+
     return text;
   }
 
@@ -1535,7 +1535,7 @@ class DocxExporter {
     try {
       // Render Mermaid to PNG
       const pngResult = await this.renderer.renderMermaidToPng(mermaidCode);
-      
+
       // Convert base64 to Uint8Array
       const binaryString = atob(pngResult.base64);
       const len = binaryString.length;
@@ -1543,24 +1543,24 @@ class DocxExporter {
       for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
       }
-      
+
       // Calculate display size (1/4 of original PNG size for high DPI)
       let displayWidth = Math.round(pngResult.width / 4);
       let displayHeight = Math.round(pngResult.height / 4);
-      
+
       // Apply max-width constraint (same as regular images)
       const maxWidthInches = 6;
       const maxWidthPixels = maxWidthInches * 96; // 576 pixels
-      
+
       if (displayWidth > maxWidthPixels) {
         const ratio = maxWidthPixels / displayWidth;
         displayWidth = maxWidthPixels;
         displayHeight = Math.round(displayHeight * ratio);
       }
-      
+
       // Report progress after processing mermaid
       this.reportResourceProgress();
-      
+
       // Create ImageRun
       return new Paragraph({
         children: [
@@ -1620,7 +1620,7 @@ class DocxExporter {
     try {
       // Render HTML to PNG
       const pngResult = await this.renderer.renderHtmlToPng(htmlContent);
-      
+
       // Convert base64 to Uint8Array
       const binaryString = atob(pngResult.base64);
       const len = binaryString.length;
@@ -1628,21 +1628,21 @@ class DocxExporter {
       for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
       }
-      
+
       // Calculate display size (1/4 of original PNG size)
       let displayWidth = Math.round(pngResult.width / 4);
       let displayHeight = Math.round(pngResult.height / 4);
-      
+
       // Apply max-width constraint (same as regular images)
       const maxWidthInches = 6;
       const maxWidthPixels = maxWidthInches * 96; // 576 pixels
-      
+
       if (displayWidth > maxWidthPixels) {
         const ratio = maxWidthPixels / displayWidth;
         displayWidth = maxWidthPixels;
         displayHeight = Math.round(displayHeight * ratio);
       }
-      
+
       // Create ImageRun
       return new Paragraph({
         children: [
@@ -1696,7 +1696,7 @@ class DocxExporter {
     try {
       // Render SVG to PNG
       const pngResult = await this.renderer.renderSvgToPng(svgContent);
-      
+
       // Convert base64 to Uint8Array
       const binaryString = atob(pngResult.base64);
       const len = binaryString.length;
@@ -1704,15 +1704,15 @@ class DocxExporter {
       for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
       }
-      
+
       // Calculate display size (1/4 of original PNG size)
       let displayWidth = Math.round(pngResult.width / 4);
       let displayHeight = Math.round(pngResult.height / 4);
-      
+
       // Apply max-width constraint (same as regular images)
-      const { width: constrainedWidth, height: constrainedHeight } = 
+      const { width: constrainedWidth, height: constrainedHeight } =
         this.calculateImageDimensions(displayWidth, displayHeight);
-      
+
       // Create ImageRun
       return new ImageRun({
         data: bytes,
@@ -1753,7 +1753,7 @@ class DocxExporter {
         binary += String.fromCharCode(bytes[i]);
       }
       const base64 = btoa(binary);
-      
+
       // Send to background script to handle download
       chrome.runtime.sendMessage({
         type: 'DOWNLOAD_FILE',
@@ -1773,7 +1773,7 @@ class DocxExporter {
       this.fallbackDownload(blob, filename);
     }
   }
-  
+
   /**
    * Fallback download method using <a> element
    */
@@ -1783,10 +1783,10 @@ class DocxExporter {
     a.href = url;
     a.download = filename;
     a.style.display = 'none';
-    
+
     document.body.appendChild(a);
     a.click();
-    
+
     setTimeout(() => {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);

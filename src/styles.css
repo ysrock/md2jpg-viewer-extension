@@ -198,7 +198,8 @@ body.toc-hidden #markdown-wrapper {
   max-width: 1060px;
   margin: 0 auto;
   transition: max-width 0.3s ease;
-  display: none; /* Hidden until content is loaded */
+  display: none;
+  /* Hidden until content is loaded */
 }
 
 #markdown-page.loaded {
@@ -223,7 +224,8 @@ body.toc-hidden #markdown-wrapper {
 #markdown-content h5,
 #markdown-content h6 {
   font-weight: 800;
-  scroll-margin-top: 60px; /* Offset for fixed toolbar (50px) + 10px padding */
+  scroll-margin-top: 60px;
+  /* Offset for fixed toolbar (50px) + 10px padding */
 }
 
 #markdown-content h1 {
@@ -313,22 +315,26 @@ body.toc-hidden #markdown-wrapper {
   background-color: #f6f8fa;
 }
 
-#markdown-content ul, #markdown-content ol {
+#markdown-content ul,
+#markdown-content ol {
   padding-left: 2em;
   margin: 16px 0;
 }
 
 /* Ordered list style by level */
 #markdown-content ol {
-  list-style-type: decimal; /* 1. 2. 3. */
+  list-style-type: decimal;
+  /* 1. 2. 3. */
 }
 
 #markdown-content ol ol {
-  list-style-type: lower-roman; /* i. ii. iii. iv. v. vi. vii. */
+  list-style-type: lower-roman;
+  /* i. ii. iii. iv. v. vi. vii. */
 }
 
 #markdown-content ol ol ol {
-  list-style-type: lower-alpha; /* a. b. c. */
+  list-style-type: lower-alpha;
+  /* a. b. c. */
 }
 
 #markdown-content li {
@@ -404,21 +410,21 @@ body.toc-hidden #markdown-wrapper {
   #markdown-wrapper {
     margin-left: 0;
   }
-  
+
   #table-of-contents {
     transform: translateX(-100%);
     width: 80%;
     max-width: 320px;
   }
-  
+
   #table-of-contents:not(.hidden) {
     transform: translateX(0);
   }
-  
+
   .file-name {
     max-width: 150px;
   }
-  
+
   .toolbar-center {
     gap: 8px;
   }
@@ -429,24 +435,24 @@ body.toc-hidden #markdown-wrapper {
     width: 90%;
     max-width: 300px;
   }
-  
+
   #markdown-content {
     padding: 20px;
   }
-  
+
   #toolbar {
     padding: 0 10px;
   }
-  
+
   .file-name {
     display: none;
   }
-  
+
   .toolbar-left,
   .toolbar-right {
     gap: 6px;
   }
-  
+
   .zoom-level {
     min-width: 45px;
     font-size: 13px;
@@ -470,16 +476,19 @@ body.toc-hidden #markdown-wrapper {
 
 .progress-circle-bg {
   opacity: 0.4;
-  stroke: #666; /* Darker gray for better contrast on dark background */
+  stroke: #666;
+  /* Darker gray for better contrast on dark background */
 }
 
 .progress-circle-progress {
   transition: stroke-dashoffset 0.3s ease;
-  stroke: #00d4aa; /* Brighter cyan-green for better visibility */
+  stroke: #00d4aa;
+  /* Brighter cyan-green for better visibility */
 }
 
 .download-progress-circle {
-  stroke: #007acc; /* Blue color for download progress */
+  stroke: #007acc;
+  /* Blue color for download progress */
   transition: stroke-dashoffset 0.3s ease;
 }
 
@@ -527,8 +536,13 @@ body.toc-hidden #markdown-wrapper {
 }
 
 @keyframes async-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .async-text {
@@ -564,19 +578,20 @@ body.toc-hidden #markdown-wrapper {
 
 /* Print Styles - Only show content area */
 @media print {
+
   /* Hide toolbar, TOC and overlay completely when printing */
   #toolbar,
   #table-of-contents,
   #toc-overlay {
     display: none !important;
   }
-  
+
   /* Reset wrapper margin for printing */
   #markdown-wrapper {
     margin-left: 0 !important;
     margin-top: 0 !important;
   }
-  
+
   /* Optimize content area for printing */
   #markdown-content {
     box-shadow: none !important;
@@ -586,20 +601,20 @@ body.toc-hidden #markdown-wrapper {
     width: 100% !important;
     background: white !important;
   }
-  
+
   /* Adjust body for print */
   body {
     background-color: white !important;
     margin: 0 !important;
     padding: 0 !important;
   }
-  
+
   /* Hide processing indicators when printing */
   .processing-indicator,
   .async-placeholder {
     display: none !important;
   }
-  
+
   /* Ensure proper page breaks */
   #markdown-content h1,
   #markdown-content h2,
@@ -607,19 +622,19 @@ body.toc-hidden #markdown-wrapper {
     page-break-after: avoid;
     break-after: avoid;
   }
-  
+
   #markdown-content pre,
   #markdown-content blockquote,
   #markdown-content table {
     page-break-inside: avoid;
     break-inside: avoid;
   }
-  
+
   /* Optimize table printing */
   #markdown-content table {
     margin: 10px auto !important;
   }
-  
+
   /* Ensure images fit on page */
   #markdown-content img {
     max-width: 100% !important;

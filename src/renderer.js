@@ -32,25 +32,25 @@ class ExtensionRenderer {
         const timeout = setTimeout(() => {
           reject(new Error('Message timeout after 30 seconds'));
         }, 30000);
-        
+
         chrome.runtime.sendMessage(message, (response) => {
           clearTimeout(timeout);
-          
+
           if (chrome.runtime.lastError) {
             reject(new Error(`Runtime error: ${chrome.runtime.lastError.message}`));
             return;
           }
-          
+
           if (!response) {
             reject(new Error('No response received from background script'));
             return;
           }
-          
+
           if (response.error) {
             reject(new Error(response.error));
             return;
           }
-          
+
           resolve(response);
         });
       });
@@ -64,7 +64,7 @@ class ExtensionRenderer {
    */
   async renderMermaidToPng(code) {
     const cacheKey = await this.cache.generateKey(code, 'MERMAID_PNG');
-    
+
     // Check cache first
     const cached = await this.cache.get(cacheKey);
     if (cached) {
@@ -86,7 +86,7 @@ class ExtensionRenderer {
     } catch (error) {
       // Ignore cache errors
     }
-    
+
     return response;
   }
 
@@ -96,7 +96,7 @@ class ExtensionRenderer {
   async renderHtmlToPng(html, width = 1200) {
     const contentKey = html + width;
     const cacheKey = await this.cache.generateKey(contentKey, 'HTML_PNG');
-    
+
     // Check cache first
     const cached = await this.cache.get(cacheKey);
     if (cached) {
@@ -119,7 +119,7 @@ class ExtensionRenderer {
     } catch (error) {
       // Ignore cache errors
     }
-    
+
     return response;
   }
 
@@ -128,7 +128,7 @@ class ExtensionRenderer {
    */
   async renderSvgToPng(svg) {
     const cacheKey = await this.cache.generateKey(svg, 'SVG_PNG');
-    
+
     // Check cache first
     const cached = await this.cache.get(cacheKey);
     if (cached) {
@@ -149,7 +149,7 @@ class ExtensionRenderer {
     }).catch(error => {
       // Ignore cache errors
     });
-    
+
     return response;
   }
 

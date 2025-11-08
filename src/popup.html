@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
       width: 380px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
@@ -29,14 +30,14 @@
       flex-direction: column;
       background: #eef1f7;
     }
-    
+
     .header {
       padding: 20px;
       text-align: center;
       border-bottom: 1px solid #d9e1ef;
       background: #ffffff;
     }
-    
+
     h1 {
       font-size: 24px;
       margin-bottom: 5px;
@@ -45,22 +46,22 @@
       justify-content: center;
       gap: 10px;
     }
-    
+
     .version {
       font-size: 12px;
       color: #5a6270;
     }
-    
+
     .icon {
       font-size: 28px;
     }
-    
+
     .tabs {
       display: flex;
       background: #e6ebf5;
       border-bottom: 1px solid #d9e1ef;
     }
-    
+
     .tab {
       flex: 1;
       padding: 12px;
@@ -72,30 +73,30 @@
       font-size: 14px;
       transition: background-color 0.3s;
     }
-    
+
     .tab:hover {
       background: rgba(255, 255, 255, 0.6);
     }
-    
+
     .tab.active {
       background: #ffffff;
       border-bottom: 2px solid #4a90e2;
       color: #2f3747;
     }
-    
+
     .tab-content {
       padding: 20px;
       background: #f5f7fb;
     }
-    
+
     .tab-panel {
       display: none;
     }
-    
+
     .tab-panel.active {
       display: block;
     }
-    
+
     .info-section {
       background: #ffffff;
       padding: 15px;
@@ -103,34 +104,34 @@
       margin-bottom: 15px;
       border: 1px solid #e2e8f0;
     }
-    
+
     .info-section h3 {
       font-size: 14px;
       margin-bottom: 8px;
       font-weight: 600;
       color: #2d3748;
     }
-    
+
     .info-section ul {
       list-style: none;
       font-size: 13px;
       line-height: 1.8;
       color: #4a5568;
     }
-    
+
     .info-section li:before {
       content: "✓ ";
       margin-right: 5px;
       color: #4a90e2;
     }
-    
+
     .cache-stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-bottom: 10px;
     }
-    
+
     .stat-item {
       background: #ffffff;
       padding: 10px;
@@ -138,19 +139,19 @@
       text-align: center;
       border: 1px solid #dee6f2;
     }
-    
+
     .stat-value {
       font-size: 18px;
       font-weight: bold;
       margin-bottom: 3px;
       color: #2d3748;
     }
-    
+
     .stat-label {
       font-size: 11px;
       color: #6b7280;
     }
-    
+
     .btn {
       background: #f0f3f7;
       color: #2f3747;
@@ -162,22 +163,22 @@
       margin: 5px;
       transition: all 0.3s;
     }
-    
+
     .btn:hover {
       background: #e4e9f2;
       transform: translateY(-1px);
     }
-    
+
     .btn.danger {
       background: #fcebea;
       border-color: #f5c6cb;
       color: #b91c1c;
     }
-    
+
     .btn.danger:hover {
       background: #f8d7da;
     }
-    
+
     .cache-items {
       height: 200px;
       overflow-y: auto;
@@ -197,7 +198,7 @@
       font-style: italic;
       opacity: 0.8;
     }
-    
+
     .cache-item {
       background: #ffffff;
       padding: 8px;
@@ -206,13 +207,13 @@
       font-size: 11px;
       border: 1px solid #e2e8f0;
     }
-    
+
     .cache-item-key {
       font-family: monospace;
       color: #4a5568;
       word-break: break-all;
     }
-    
+
     .cache-item-info {
       display: flex;
       justify-content: space-between;
@@ -241,7 +242,7 @@
     .about-list p:last-child {
       margin-bottom: 0;
     }
-    
+
     .instructions {
       background: #ffffff;
       padding: 12px;
@@ -251,20 +252,20 @@
       margin: 15px 0;
       border: 1px solid #e2e8f0;
     }
-    
+
     .instructions strong {
       display: block;
       margin-bottom: 5px;
       font-size: 13px;
       color: #2d3748;
     }
-    
+
     .loading {
       text-align: center;
       padding: 20px;
       color: #6b7280;
     }
-    
+
     .footer {
       text-align: center;
       padding: 15px;
@@ -291,6 +292,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="tab-wrapper">
     <div class="header">
@@ -305,139 +307,144 @@
     </div>
 
     <div class="tab-content">
-    <!-- Overview tab -->
-    <div class="tab-panel active" id="overview">
-      <div class="info-section">
-        <h3 data-i18n="overview_features_title"></h3>
-        <ul>
-          <li data-i18n="overview_feature_live_render"></li>
-          <li data-i18n="overview_feature_code_highlight"></li>
-          <li data-i18n="overview_feature_math_support"></li>
-          <li data-i18n="overview_feature_theme"></li>
-          <li data-i18n="overview_feature_toc"></li>
-          <li data-i18n="overview_feature_cache"></li>
-        </ul>
-      </div>
-
-      <div class="info-section">
-        <h3 data-i18n="overview_version_title"></h3>
-        <div class="about-list" style="font-size: 12px; line-height: 1.6;">
-          <p><strong data-i18n="settings_about_author_label"></strong> xicilion</p>
-          <p><strong data-i18n="settings_about_version_label"></strong> 1.0.0</p>
-          <p><strong data-i18n="settings_about_updated_label"></strong> 2025-11-09</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Guide tab -->
-    <div class="tab-panel" id="guide">
-      <div class="instructions">
-        <strong data-i18n="overview_usage_title"></strong>
-        <p data-i18n="overview_usage_step1"></p>
-        <p data-i18n="overview_usage_step2"></p>
-      </div>
-
-      <div class="info-section">
-        <h3 data-i18n="overview_demo_title"></h3>
-        <div style="text-align: center; margin: 10px 0;">
-          <button class="btn" id="demo-link" style="background: #ecfdf3; border-color: #bbf7d0; color: #047857;" data-i18n="overview_demo_button"></button>
-        </div>
-        <div style="font-size: 11px; opacity: 0.8; text-align: center;" data-i18n="overview_demo_helper">
-        </div>
-      </div>
-
-      <div class="instructions">
-        <strong data-i18n="overview_tip_title"></strong>
-        <p data-i18n="overview_tip_content"></p>
-      </div>
-    </div>
-    
-    <!-- Cache tab -->
-    <div class="tab-panel" id="cache">
-      <div id="cache-content">
-        <div class="cache-stats" id="cache-stats">
-          <div class="stat-item">
-            <div class="stat-value" id="cache-stat-item-count">--</div>
-            <div class="stat-label" data-i18n="cache_stat_item_label"></div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="cache-stat-size">--</div>
-            <div class="stat-label" data-i18n="cache_stat_size_label"></div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="cache-stat-usage">--</div>
-            <div class="stat-label" data-i18n="cache_stat_usage_label"></div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" id="cache-stat-capacity">--</div>
-            <div class="stat-label" data-i18n="cache_stat_capacity_label"></div>
-          </div>
-        </div>
-
-        <div class="cache-message" id="cache-message" hidden>
-          <div class="cache-message-text" id="cache-message-text"></div>
-          <div class="cache-message-details" id="cache-message-details"></div>
-        </div>
-        
-        <div class="cache-actions">
-          <button class="btn" id="refresh-cache" data-i18n="cache_refresh"></button>
-          <button class="btn danger" id="clear-cache" data-i18n="cache_clear"></button>
-        </div>
-        
+      <!-- Overview tab -->
+      <div class="tab-panel active" id="overview">
         <div class="info-section">
-          <h3 data-i18n="cache_items_title"></h3>
-          <div class="cache-items" id="cache-items" data-empty="true">
-            <div class="cache-item cache-item--empty" data-i18n="cache_items_empty"></div>
+          <h3 data-i18n="overview_features_title"></h3>
+          <ul>
+            <li data-i18n="overview_feature_live_render"></li>
+            <li data-i18n="overview_feature_code_highlight"></li>
+            <li data-i18n="overview_feature_math_support"></li>
+            <li data-i18n="overview_feature_theme"></li>
+            <li data-i18n="overview_feature_toc"></li>
+            <li data-i18n="overview_feature_cache"></li>
+          </ul>
+        </div>
+
+        <div class="info-section">
+          <h3 data-i18n="overview_version_title"></h3>
+          <div class="about-list" style="font-size: 12px; line-height: 1.6;">
+            <p><strong data-i18n="settings_about_author_label"></strong> xicilion</p>
+            <p><strong data-i18n="settings_about_version_label"></strong> 1.0.0</p>
+            <p><strong data-i18n="settings_about_updated_label"></strong> 2025-11-09</p>
           </div>
         </div>
       </div>
-      <template id="cache-item-template">
-        <div class="cache-item" data-cache-item="dynamic">
-          <div class="cache-item-key"></div>
-          <div class="cache-item-info">
-            <span class="cache-item-type"></span>
-            <span class="cache-item-size"></span>
-          </div>
-          <div class="cache-item-meta cache-item-created"></div>
-          <div class="cache-item-meta cache-item-accessed"></div>
-        </div>
-      </template>
-    </div>
-    
-    <!-- Settings tab -->
-    <div class="tab-panel" id="settings">
-      <div class="info-section">
-        <h3 data-i18n="settings_general_title"></h3>
-        <div style="margin: 10px 0;">
-          <label style="display: block; margin-bottom: 5px; font-size: 12px;" data-i18n="settings_max_cache_label"></label>
-     <input type="number" id="max-cache-items" min="100" max="5000" step="100" 
-       style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #d1d9e6; background: #ffffff; color: #1f2933;">
+
+      <!-- Guide tab -->
+      <div class="tab-panel" id="guide">
+        <div class="instructions">
+          <strong data-i18n="overview_usage_title"></strong>
+          <p data-i18n="overview_usage_step1"></p>
+          <p data-i18n="overview_usage_step2"></p>
         </div>
 
-        <div style="margin: 10px 0;">
-          <label for="interface-language" style="display: block; margin-bottom: 5px; font-size: 12px;" data-i18n="settings_language_label"></label>
-          <select id="interface-language" style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #d1d9e6; background: #ffffff; color: #1f2933;">
-            <option value="auto" data-i18n="settings_language_auto"></option>
-            <option value="en" data-i18n="settings_language_en"></option>
-            <option value="zh_CN" data-i18n="settings_language_zh_cn"></option>
-            <option value="es" data-i18n="settings_language_es"></option>
-            <option value="fr" data-i18n="settings_language_fr"></option>
-            <option value="de" data-i18n="settings_language_de"></option>
-            <option value="ru" data-i18n="settings_language_ru"></option>
-            <option value="ja" data-i18n="settings_language_ja"></option>
-            <option value="ko" data-i18n="settings_language_ko"></option>
-          </select>
-          <div style="font-size: 11px; margin-top: 4px; color: #6b7280;" data-i18n="settings_language_note"></div>
+        <div class="info-section">
+          <h3 data-i18n="overview_demo_title"></h3>
+          <div style="text-align: center; margin: 10px 0;">
+            <button class="btn" id="demo-link" style="background: #ecfdf3; border-color: #bbf7d0; color: #047857;"
+              data-i18n="overview_demo_button"></button>
+          </div>
+          <div style="font-size: 11px; opacity: 0.8; text-align: center;" data-i18n="overview_demo_helper">
+          </div>
         </div>
-        
-        <div style="margin: 15px 0;">
-          <button class="btn" id="save-settings" data-i18n="settings_save_btn"></button>
-          <button class="btn" id="reset-settings" data-i18n="settings_reset_btn"></button>
+
+        <div class="instructions">
+          <strong data-i18n="overview_tip_title"></strong>
+          <p data-i18n="overview_tip_content"></p>
+        </div>
+      </div>
+
+      <!-- Cache tab -->
+      <div class="tab-panel" id="cache">
+        <div id="cache-content">
+          <div class="cache-stats" id="cache-stats">
+            <div class="stat-item">
+              <div class="stat-value" id="cache-stat-item-count">--</div>
+              <div class="stat-label" data-i18n="cache_stat_item_label"></div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="cache-stat-size">--</div>
+              <div class="stat-label" data-i18n="cache_stat_size_label"></div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="cache-stat-usage">--</div>
+              <div class="stat-label" data-i18n="cache_stat_usage_label"></div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="cache-stat-capacity">--</div>
+              <div class="stat-label" data-i18n="cache_stat_capacity_label"></div>
+            </div>
+          </div>
+
+          <div class="cache-message" id="cache-message" hidden>
+            <div class="cache-message-text" id="cache-message-text"></div>
+            <div class="cache-message-details" id="cache-message-details"></div>
+          </div>
+
+          <div class="cache-actions">
+            <button class="btn" id="refresh-cache" data-i18n="cache_refresh"></button>
+            <button class="btn danger" id="clear-cache" data-i18n="cache_clear"></button>
+          </div>
+
+          <div class="info-section">
+            <h3 data-i18n="cache_items_title"></h3>
+            <div class="cache-items" id="cache-items" data-empty="true">
+              <div class="cache-item cache-item--empty" data-i18n="cache_items_empty"></div>
+            </div>
+          </div>
+        </div>
+        <template id="cache-item-template">
+          <div class="cache-item" data-cache-item="dynamic">
+            <div class="cache-item-key"></div>
+            <div class="cache-item-info">
+              <span class="cache-item-type"></span>
+              <span class="cache-item-size"></span>
+            </div>
+            <div class="cache-item-meta cache-item-created"></div>
+            <div class="cache-item-meta cache-item-accessed"></div>
+          </div>
+        </template>
+      </div>
+
+      <!-- Settings tab -->
+      <div class="tab-panel" id="settings">
+        <div class="info-section">
+          <h3 data-i18n="settings_general_title"></h3>
+          <div style="margin: 10px 0;">
+            <label style="display: block; margin-bottom: 5px; font-size: 12px;"
+              data-i18n="settings_max_cache_label"></label>
+            <input type="number" id="max-cache-items" min="100" max="5000" step="100"
+              style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #d1d9e6; background: #ffffff; color: #1f2933;">
+          </div>
+
+          <div style="margin: 10px 0;">
+            <label for="interface-language" style="display: block; margin-bottom: 5px; font-size: 12px;"
+              data-i18n="settings_language_label"></label>
+            <select id="interface-language"
+              style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #d1d9e6; background: #ffffff; color: #1f2933;">
+              <option value="auto" data-i18n="settings_language_auto"></option>
+              <option value="en" data-i18n="settings_language_en"></option>
+              <option value="zh_CN" data-i18n="settings_language_zh_cn"></option>
+              <option value="es" data-i18n="settings_language_es"></option>
+              <option value="fr" data-i18n="settings_language_fr"></option>
+              <option value="de" data-i18n="settings_language_de"></option>
+              <option value="ru" data-i18n="settings_language_ru"></option>
+              <option value="ja" data-i18n="settings_language_ja"></option>
+              <option value="ko" data-i18n="settings_language_ko"></option>
+            </select>
+            <div style="font-size: 11px; margin-top: 4px; color: #6b7280;" data-i18n="settings_language_note"></div>
+          </div>
+
+          <div style="margin: 15px 0;">
+            <button class="btn" id="save-settings" data-i18n="settings_save_btn"></button>
+            <button class="btn" id="reset-settings" data-i18n="settings_reset_btn"></button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="popup.js"></script>
+    <script src="popup.js"></script>
 </body>
+
 </html>

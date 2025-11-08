@@ -151,7 +151,7 @@ class PopupManager {
       await this.loadCacheData();
     } catch (error) {
       console.error('Failed to load cache data:', error);
-        this.showError(translate('cache_system_unavailable') || 'Cache system unavailable - open a Markdown file first');
+      this.showError(translate('cache_system_unavailable'));
       this.showManualCacheInfo();
     }
   }
@@ -282,7 +282,7 @@ class PopupManager {
       }
 
       if (!this.cacheManager) {
-        throw new Error(translate('cache_manager_init_failed') || 'Cache manager initialization failed');
+        throw new Error(translate('cache_manager_init_failed'));
       }
 
       const stats = await this.cacheManager.getStats();
@@ -329,7 +329,7 @@ class PopupManager {
     const capacityEl = document.getElementById('cache-stat-capacity');
 
     if (itemCount === 0) {
-      const hintDetails = translate('cache_hint_details') || '';
+      const hintDetails = translate('cache_hint_details');
       if (itemCountEl) {
         itemCountEl.textContent = '0';
       }
@@ -397,11 +397,11 @@ class PopupManager {
 
     itemsEl.dataset.empty = 'false';
 
-    const typeLabel = translate('cache_item_type_label') || 'Type';
-    const sizeLabel = translate('cache_item_size_label') || 'Size';
-    const createdLabel = translate('cache_item_created_label') || 'Created';
-    const accessedLabel = translate('cache_item_accessed_label') || 'Last accessed';
-    const unknownType = translate('cache_item_type_unknown') || 'unknown';
+    const typeLabel = translate('cache_item_type_label');
+    const sizeLabel = translate('cache_item_size_label');
+    const createdLabel = translate('cache_item_created_label');
+    const accessedLabel = translate('cache_item_accessed_label');
+    const unknownType = translate('cache_item_type_unknown');
     const locale = getUiLocale();
 
     const fragment = document.createDocumentFragment();
@@ -448,7 +448,7 @@ class PopupManager {
   }
 
   async clearCache() {
-    const confirmMessage = translate('cache_clear_confirm') || 'Clear all cached data? This action cannot be undone.';
+    const confirmMessage = translate('cache_clear_confirm');
     if (!confirm(confirmMessage)) {
       return;
     }
@@ -460,10 +460,10 @@ class PopupManager {
 
       await this.cacheManager.clear();
       this.loadCacheData();
-      this.showMessage(translate('cache_clear_success') || 'Cache cleared', 'success');
+      this.showMessage(translate('cache_clear_success'), 'success');
     } catch (error) {
       console.error('Failed to clear cache:', error);
-      this.showMessage(translate('cache_clear_failed') || 'Failed to clear cache', 'error');
+      this.showMessage(translate('cache_clear_failed'), 'error');
     }
   }
 
@@ -499,7 +499,7 @@ class PopupManager {
 
       if (Number.isNaN(maxCacheItems) || maxCacheItems < 100 || maxCacheItems > 5000) {
         this.showMessage(
-          translate('settings_invalid_max_cache', ['100', '5000']) || 'Enter a valid cache size between 100 and 5000',
+          translate('settings_invalid_max_cache', ['100', '5000']),
           'error'
         );
         return;
@@ -513,7 +513,7 @@ class PopupManager {
       });
 
       await Localization.setPreferredLocale(preferredLocale);
-      chrome.runtime.sendMessage({ type: 'localeChanged', locale: preferredLocale }).catch(() => {});
+      chrome.runtime.sendMessage({ type: 'localeChanged', locale: preferredLocale }).catch(() => { });
       applyI18nText();
       this.loadSettingsUI();
 
@@ -525,15 +525,15 @@ class PopupManager {
         this.cacheManager.maxItems = maxCacheItems;
       }
 
-      this.showMessage(translate('settings_save_success') || 'Settings saved', 'success');
+      this.showMessage(translate('settings_save_success'), 'success');
     } catch (error) {
       console.error('Failed to save settings:', error);
-      this.showMessage(translate('settings_save_failed') || 'Failed to save settings', 'error');
+      this.showMessage(translate('settings_save_failed'), 'error');
     }
   }
 
   async resetSettings() {
-    const confirmMessage = translate('settings_reset_confirm') || 'Reset all settings to default values?';
+    const confirmMessage = translate('settings_reset_confirm');
     if (!confirm(confirmMessage)) {
       return;
     }
@@ -549,7 +549,7 @@ class PopupManager {
       });
 
       await Localization.setPreferredLocale(DEFAULT_SETTING_LOCALE);
-      chrome.runtime.sendMessage({ type: 'localeChanged', locale: DEFAULT_SETTING_LOCALE }).catch(() => {});
+      chrome.runtime.sendMessage({ type: 'localeChanged', locale: DEFAULT_SETTING_LOCALE }).catch(() => { });
       applyI18nText();
 
       if (this.currentTab === 'cache') {
@@ -557,10 +557,10 @@ class PopupManager {
       }
 
       this.loadSettingsUI();
-      this.showMessage(translate('settings_reset_success') || 'Settings reset', 'success');
+      this.showMessage(translate('settings_reset_success'), 'success');
     } catch (error) {
       console.error('Failed to reset settings:', error);
-      this.showMessage(translate('settings_reset_failed') || 'Failed to reset settings', 'error');
+      this.showMessage(translate('settings_reset_failed'), 'error');
     }
   }
 
@@ -615,27 +615,27 @@ class PopupManager {
       window.close();
     } catch (error) {
       console.error('Failed to open demo:', error);
-      this.showMessage(translate('demo_open_failed') || 'Failed to open demo document', 'error');
+      this.showMessage(translate('demo_open_failed'), 'error');
     }
   }
 
   showManualCacheInfo() {
     this.resetCacheView();
 
-    const manualLimitTitle = translate('cache_manual_limit_title') || 'Cache access limits';
-    const manualLimitDesc1 = translate('cache_manual_limit_desc_1') || 'For security reasons the popup cannot access IndexedDB directly.';
-    const manualLimitDesc2 = translate('cache_manual_limit_desc_2') || 'Caching works while rendering Markdown pages but details are unavailable here.';
-    const manualStatusTitle = translate('cache_manual_status_title') || 'Check cache status';
-    const manualStatusIntro = translate('cache_manual_status_intro') || 'To make sure caching works:';
-    const manualStatusStepOpen = translate('cache_manual_status_step_open') || 'Open a Markdown file';
-    const manualStatusStepSpeed = translate('cache_manual_status_step_speed') || 'Notice faster renders when cache is warm';
-  const manualStatusStepConsole = translate('cache_manual_status_step_console') || 'Check for "Using cached" logs in DevTools';
-    const manualClearTitle = translate('cache_manual_clear_title') || 'Clear cache manually';
-    const manualClearIntro = translate('cache_manual_clear_intro') || 'To clear cache manually:';
+    const manualLimitTitle = translate('cache_manual_limit_title');
+    const manualLimitDesc1 = translate('cache_manual_limit_desc_1');
+    const manualLimitDesc2 = translate('cache_manual_limit_desc_2');
+    const manualStatusTitle = translate('cache_manual_status_title');
+    const manualStatusIntro = translate('cache_manual_status_intro');
+    const manualStatusStepOpen = translate('cache_manual_status_step_open');
+    const manualStatusStepSpeed = translate('cache_manual_status_step_speed');
+    const manualStatusStepConsole = translate('cache_manual_status_step_console');
+    const manualClearTitle = translate('cache_manual_clear_title');
+    const manualClearIntro = translate('cache_manual_clear_intro');
     const manualClearCode = 'window.extensionRenderer?.cacheManager?.clear()';
-    const manualClearStep1 = translate('cache_manual_clear_step_1') || 'Open any Markdown file';
-    const manualClearStep2 = translate('cache_manual_clear_step_2') || 'Press F12 to open DevTools';
-    const manualClearStep3Raw = translate('cache_manual_clear_step_3', [manualClearCode]) || `Run "${manualClearCode}" in the console`;
+    const manualClearStep1 = translate('cache_manual_clear_step_1');
+    const manualClearStep2 = translate('cache_manual_clear_step_2');
+    const manualClearStep3Raw = translate('cache_manual_clear_step_3', [manualClearCode]);
 
     const primaryMessage = `${manualLimitTitle}
 ${manualLimitDesc1}

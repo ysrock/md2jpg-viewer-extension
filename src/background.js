@@ -39,64 +39,64 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     offscreenCreated = true;
     return;
   }
-  
+
   if (message.type === 'offscreenDOMReady') {
     return;
   }
-  
+
   if (message.type === 'offscreenError') {
     console.error('Offscreen error:', message.error);
     return;
   }
-  
+
   if (message.type === 'injectContentScript') {
     handleContentScriptInjection(sender.tab.id, sendResponse);
     return true; // Keep message channel open for async response
   }
-  
+
   // Handle scroll position management
   if (message.type === 'saveScrollPosition') {
     scrollPositions.set(message.url, message.position);
     sendResponse({ success: true });
     return;
   }
-  
+
   if (message.type === 'getScrollPosition') {
     const position = scrollPositions.get(message.url) || 0;
     sendResponse({ position });
     return;
   }
-  
+
   if (message.type === 'clearScrollPosition') {
     scrollPositions.delete(message.url);
     sendResponse({ success: true });
     return;
   }
-  
+
   // Handle cache operations
   if (message.action === 'getCacheStats' || message.action === 'clearCache') {
     handleCacheRequest(message, sendResponse);
     return true; // Keep message channel open for async response
   }
-  
+
   // Handle cache operations for content scripts
   if (message.type === 'cacheOperation') {
     handleContentCacheOperation(message, sendResponse);
     return true; // Keep message channel open for async response
   }
-  
+
   // Forward rendering messages to offscreen document
   if (message.type === 'renderMermaid' || message.type === 'renderHtml' || message.type === 'renderSvg') {
     handleRenderingRequest(message, sendResponse);
     return true; // Keep message channel open for async response
   }
-  
+
   // Handle local file reading
   if (message.type === 'READ_LOCAL_FILE') {
     handleFileRead(message, sendResponse);
     return true; // Keep message channel open for async response
   }
-  
+
   // Handle file download
   if (message.type === 'DOWNLOAD_FILE') {
     handleFileDownload(message, sendResponse);
@@ -169,37 +169,37 @@ async function handleContentCacheOperation(message, sendResponse) {
     if (!globalCacheManager) {
       globalCacheManager = await initGlobalCacheManager();
     }
-    
+
     if (!globalCacheManager) {
       sendResponse({ error: 'Cache system initialization failed' });
       return;
     }
-    
+
     switch (message.operation) {
       case 'get':
         const item = await globalCacheManager.get(message.key);
         sendResponse({ result: item });
         break;
-        
+
       case 'set':
         await globalCacheManager.set(message.key, message.value, message.dataType);
         sendResponse({ success: true });
         break;
-        
+
       case 'clear':
         await globalCacheManager.clear();
         sendResponse({ success: true });
         break;
-        
+
       case 'getStats':
         const stats = await globalCacheManager.getStats();
         sendResponse({ result: stats });
         break;
-        
+
       default:
         sendResponse({ error: 'Unknown cache operation' });
     }
-    
+
   } catch (error) {
     sendResponse({ error: error.message });
   }
@@ -211,7 +211,7 @@ async function handleCacheRequest(message, sendResponse) {
     if (!globalCacheManager) {
       globalCacheManager = await initGlobalCacheManager();
     }
-    
+
     if (!globalCacheManager) {
       sendResponse({
         itemCount: 0,
@@ -223,7 +223,7 @@ async function handleCacheRequest(message, sendResponse) {
       });
       return;
     }
-    
+
     if (message.action === 'getCacheStats') {
       const stats = await globalCacheManager.getStats();
       sendResponse(stats);
@@ -233,9 +233,9 @@ async function handleCacheRequest(message, sendResponse) {
     } else {
       sendResponse({ error: 'Unknown cache action' });
     }
-    
+
   } catch (error) {
-    sendResponse({ 
+    sendResponse({
       error: error.message,
       itemCount: 0,
       maxItems: 1000,
@@ -251,14 +251,14 @@ async function handleFileRead(message, sendResponse) {
   try {
     // Use fetch to read the file - this should work from background script
     const response = await fetch(message.filePath);
-    
+
     if (!response.ok) {
       throw new Error(`Failed to read file: ${response.status} ${response.statusText}`);
     }
-    
+
     // Get content type from response headers
     const contentType = response.headers.get('content-type') || '';
-    
+
     // Check if binary mode is requested
     if (message.binary) {
       // Read as ArrayBuffer for binary files (images)
@@ -270,9 +270,9 @@ async function handleFileRead(message, sendResponse) {
         binary += String.fromCharCode(bytes[i]);
       }
       const base64 = btoa(binary);
-      sendResponse({ 
+      sendResponse({
         content: base64,
-        contentType: contentType 
+        contentType: contentType
       });
     } else {
       // Read as text for text files
@@ -288,7 +288,7 @@ async function handleFileDownload(message, sendResponse) {
   try {
     // Convert base64 to data URL
     const dataUrl = `data:${message.mimeType};base64,${message.data}`;
-    
+
     // Use chrome.downloads API
     chrome.downloads.download({
       url: dataUrl,
@@ -310,7 +310,7 @@ async function handleRenderingRequest(message, sendResponse) {
   try {
     // Ensure offscreen document exists
     await ensureOffscreenDocument();
-    
+
     // Send message to offscreen document
     chrome.runtime.sendMessage(message, (response) => {
       if (chrome.runtime.lastError) {
@@ -326,7 +326,7 @@ async function handleRenderingRequest(message, sendResponse) {
         sendResponse(response);
       }
     });
-    
+
   } catch (error) {
     sendResponse({ error: `Offscreen setup failed: ${error.message}` });
   }
@@ -337,27 +337,27 @@ async function ensureOffscreenDocument() {
   if (offscreenCreated) {
     return;
   }
-  
+
   // Try to create offscreen document
   // Multiple concurrent requests might try to create, but that's OK
   try {
     const offscreenUrl = chrome.runtime.getURL('offscreen.html');
-    
+
     await chrome.offscreen.createDocument({
       url: offscreenUrl,
       reasons: ['DOM_SCRAPING'],
       justification: 'Render Mermaid diagrams, SVG and HTML to PNG'
     });
-    
+
     offscreenCreated = true;
-    
+
   } catch (error) {
     // If error is about document already existing, that's fine
     if (error.message.includes('already exists') || error.message.includes('Only a single offscreen')) {
       offscreenCreated = true;
       return;
     }
-    
+
     // For other errors, throw them
     throw new Error(`Failed to create offscreen document: ${error.message}`);
   }
@@ -371,15 +371,15 @@ async function handleContentScriptInjection(tabId, sendResponse) {
       target: { tabId: tabId },
       files: ['styles.css']
     });
-    
+
     // Then inject JavaScript
     await chrome.scripting.executeScript({
       target: { tabId: tabId },
       files: ['content.js']
     });
-    
+
     sendResponse({ success: true });
-    
+
   } catch (error) {
     sendResponse({ error: error.message });
   }
@@ -549,15 +549,15 @@ async function handlePrintJobComplete(message, sender, sendResponse) {
 
   if (message?.closeTab !== false && typeof job.tabId === 'number') {
     try {
-        await new Promise((resolve, reject) => {
-          chrome.tabs.remove(job.tabId, () => {
-            if (chrome.runtime.lastError) {
-              reject(new Error(chrome.runtime.lastError.message));
-              return;
-            }
-            resolve();
-          });
+      await new Promise((resolve, reject) => {
+        chrome.tabs.remove(job.tabId, () => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+            return;
+          }
+          resolve();
         });
+      });
     } catch (error) {
       // Ignore removal errors
     }
