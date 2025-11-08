@@ -298,6 +298,18 @@ URLs for the reference above:
 | SQL | `SELECT * FROM users;` | 查询语句 |
 | Bash | `echo "Hello"` | 输出命令 |
 
+### 4.5 连续表格
+
+Markdown | Less | Pretty
+--- | --- | ---
+*Still* | `renders` | **nicely**
+1 | 2 | 3
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
 ---
 
 ## 5. 代码

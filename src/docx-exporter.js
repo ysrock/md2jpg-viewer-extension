@@ -513,6 +513,18 @@ class DocxExporter {
         }));
       }
       
+      // Add spacing paragraph between consecutive tables to prevent merging in DOCX
+      if (node.type === 'table' && lastNodeType === 'table') {
+        elements.push(new Paragraph({
+          text: '',
+          spacing: { 
+            before: 120,  // 6pt spacing before
+            after: 120,   // 6pt spacing after
+            line: 240,    // Normal line height
+          },
+        }));
+      }
+      
       const converted = await this.convertNode(node);
       if (converted) {
         if (Array.isArray(converted)) {
