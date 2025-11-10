@@ -15,8 +15,12 @@
     "message": "ガイド",
     "description": "ガイドタブのラベル"
   },
+  "tab_history": {
+    "message": "履歴",
+    "description": "履歴タブのラベル"
+  },
   "tab_cache": {
-    "message": "キャッシュ",
+    "message": "保存",
     "description": "キャッシュタブのラベル"
   },
   "tab_settings": {
@@ -426,5 +430,45 @@
   "settings_about_storage_label": {
     "message": "ストレージエンジン:",
     "description": "ストレージラベル"
+  },
+  "history_title": {
+    "message": "最近開いたドキュメント",
+    "description": "履歴ドキュメントタイトル"
+  },
+  "history_description": {
+    "message": "最近開いたMarkdownドキュメントを表示、クリックして再度開く",
+    "description": "履歴ドキュメントの説明"
+  },
+  "history_refresh": {
+    "message": "更新",
+    "description": "履歴更新ボタン"
+  },
+  "history_clear": {
+    "message": "履歴をクリア",
+    "description": "履歴クリアボタン"
+  },
+  "history_items_empty": {
+    "message": "履歴はまだありません",
+    "description": "空の履歴リストメッセージ"
+  },
+  "history_clear_confirm": {
+    "message": "すべての履歴をクリアしますか？この操作は元に戻せません。",
+    "description": "履歴クリア確認メッセージ"
+  },
+  "history_clear_success": {
+    "message": "履歴をクリアしました",
+    "description": "履歴クリア成功メッセージ"
+  },
+  "history_clear_failed": {
+    "message": "履歴のクリアに失敗しました",
+    "description": "履歴クリア失敗メッセージ"
+  },
+  "history_loading_failed": {
+    "message": "履歴の読み込みに失敗しました",
+    "description": "履歴読み込み失敗メッセージ"
+  },
+  "history_open_failed": {
+    "message": "ドキュメントを開けませんでした",
+    "description": "履歴ドキュメントを開く失敗メッセージ"
   }
 }

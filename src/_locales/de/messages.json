@@ -15,12 +15,16 @@
     "message": "Guide",
     "description": "Beschriftung für den Guide-Tab"
   },
+  "tab_history": {
+    "message": "Verlauf",
+    "description": "Beschriftung für den Verlaufs-Tab"
+  },
   "tab_cache": {
     "message": "Cache",
     "description": "Beschriftung für den Cache-Tab"
   },
   "tab_settings": {
-    "message": "Einstellungen",
+    "message": "Optionen",
     "description": "Beschriftung für den Einstellungs-Tab"
   },
   "popup_title": {
@@ -426,5 +430,45 @@
   "settings_about_storage_label": {
     "message": "Speicher-Engine:",
     "description": "Beschriftung Speicher"
+  },
+  "history_title": {
+    "message": "Kürzlich geöffnete Dokumente",
+    "description": "Titel Verlaufsdokumente"
+  },
+  "history_description": {
+    "message": "Zeigt kürzlich geöffnete Markdown-Dokumente an, klicken Sie zum erneuten Öffnen",
+    "description": "Beschreibung Verlaufsdokumente"
+  },
+  "history_refresh": {
+    "message": "Aktualisieren",
+    "description": "Schaltfläche Verlauf aktualisieren"
+  },
+  "history_clear": {
+    "message": "Verlauf löschen",
+    "description": "Schaltfläche Verlauf löschen"
+  },
+  "history_items_empty": {
+    "message": "Noch kein Verlauf",
+    "description": "Nachricht leere Verlaufsliste"
+  },
+  "history_clear_confirm": {
+    "message": "Gesamten Verlauf löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "description": "Bestätigungsnachricht Verlauf löschen"
+  },
+  "history_clear_success": {
+    "message": "Verlauf gelöscht",
+    "description": "Erfolgsnachricht Verlauf löschen"
+  },
+  "history_clear_failed": {
+    "message": "Fehler beim Löschen des Verlaufs",
+    "description": "Fehlernachricht Verlauf löschen"
+  },
+  "history_loading_failed": {
+    "message": "Fehler beim Laden des Verlaufs",
+    "description": "Fehlernachricht Verlauf laden"
+  },
+  "history_open_failed": {
+    "message": "Fehler beim Öffnen des Dokuments",
+    "description": "Fehlernachricht Verlaufsdokument öffnen"
   }
 }

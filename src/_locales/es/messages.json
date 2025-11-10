@@ -15,13 +15,17 @@
     "message": "Guía",
     "description": "Etiqueta para la pestaña de guía"
   },
+  "tab_history": {
+    "message": "Historial",
+    "description": "Etiqueta para la pestaña de historial"
+  },
   "tab_cache": {
     "message": "Caché",
     "description": "Etiqueta para la pestaña de caché"
   },
   "tab_settings": {
-    "message": "Ajustes",
-    "description": "Etiqueta para la pestaña de ajustes"
+    "message": "Opciones",
+    "description": "Etiqueta para la pestaña de configuración"
   },
   "popup_title": {
     "message": "Visor de Markdown",
@@ -426,5 +430,45 @@
   "settings_about_storage_label": {
     "message": "Motor de almacenamiento:",
     "description": "Etiqueta para información de almacenamiento"
+  },
+  "history_title": {
+    "message": "Documentos recientes",
+    "description": "Título de documentos de historial"
+  },
+  "history_description": {
+    "message": "Muestra documentos Markdown abiertos recientemente, haga clic para volver a abrir",
+    "description": "Descripción de documentos de historial"
+  },
+  "history_refresh": {
+    "message": "Actualizar",
+    "description": "Botón actualizar historial"
+  },
+  "history_clear": {
+    "message": "Borrar historial",
+    "description": "Botón borrar historial"
+  },
+  "history_items_empty": {
+    "message": "No hay historial todavía",
+    "description": "Mensaje de lista de historial vacía"
+  },
+  "history_clear_confirm": {
+    "message": "¿Borrar todo el historial? Esta acción no se puede deshacer.",
+    "description": "Mensaje de confirmación de borrar historial"
+  },
+  "history_clear_success": {
+    "message": "Historial borrado",
+    "description": "Mensaje de éxito de borrar historial"
+  },
+  "history_clear_failed": {
+    "message": "Error al borrar el historial",
+    "description": "Mensaje de error de borrar historial"
+  },
+  "history_loading_failed": {
+    "message": "Error al cargar el historial",
+    "description": "Mensaje de error de cargar historial"
+  },
+  "history_open_failed": {
+    "message": "Error al abrir el documento",
+    "description": "Mensaje de error de abrir documento del historial"
   }
 }

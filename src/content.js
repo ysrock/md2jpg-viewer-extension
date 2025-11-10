@@ -951,6 +951,9 @@ ${truncatedMarkup}`;
     // Parse and render markdown
     await renderMarkdown(rawMarkdown, savedScrollPosition);
 
+    // Save to history after successful render
+    await saveToHistory();
+
     // Setup TOC toggle
     setupTocToggle();
 
@@ -1502,6 +1505,45 @@ ${truncatedMarkup}`;
 
     // Default fallback
     return 'document.docx';
+  }
+
+  // Save current document to history
+  async function saveToHistory() {
+    try {
+      const url = window.location.href;
+      const title = document.title || extractFileName(url);
+      
+      const result = await chrome.storage.local.get(['markdownHistory']);
+      const history = result.markdownHistory || [];
+      
+      // Remove existing entry for this URL
+      const filteredHistory = history.filter(item => item.url !== url);
+      
+      // Add new entry at the beginning
+      filteredHistory.unshift({
+        url: url,
+        title: title,
+        lastAccess: new Date().toISOString()
+      });
+      
+      // Keep only last 100 items
+      const trimmedHistory = filteredHistory.slice(0, 100);
+      
+      await chrome.storage.local.set({ markdownHistory: trimmedHistory });
+    } catch (error) {
+      console.error('Failed to save to history:', error);
+    }
+  }
+
+  function extractFileName(url) {
+    try {
+      const urlObj = new URL(url);
+      const pathname = urlObj.pathname;
+      const fileName = pathname.split('/').pop();
+      return decodeURIComponent(fileName);
+    } catch (error) {
+      return url;
+    }
   }
 
   function setupResponsiveToc() {

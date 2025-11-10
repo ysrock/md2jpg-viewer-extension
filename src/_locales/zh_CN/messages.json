@@ -12,11 +12,15 @@
     "description": "概览标签"
   },
   "tab_guide": {
-    "message": "使用指南",
+    "message": "指南",
     "description": "指南标签"
   },
+  "tab_history": {
+    "message": "历史",
+    "description": "历史标签"
+  },
   "tab_cache": {
-    "message": "缓存管理",
+    "message": "缓存",
     "description": "缓存标签"
   },
   "tab_settings": {
@@ -426,5 +430,45 @@
   "settings_about_storage_label": {
     "message": "存储引擎:",
     "description": "关于区标签"
+  },
+  "history_title": {
+    "message": "最近访问的文档",
+    "description": "历史文档标题"
+  },
+  "history_description": {
+    "message": "显示最近打开过的 Markdown 文档，点击可以重新打开",
+    "description": "历史文档描述"
+  },
+  "history_refresh": {
+    "message": "刷新",
+    "description": "刷新历史按钮"
+  },
+  "history_clear": {
+    "message": "清空历史",
+    "description": "清空历史按钮"
+  },
+  "history_items_empty": {
+    "message": "暂无历史记录",
+    "description": "历史列表为空提示"
+  },
+  "history_clear_confirm": {
+    "message": "确定要清空所有历史记录吗？该操作不可撤销。",
+    "description": "清空历史确认提示"
+  },
+  "history_clear_success": {
+    "message": "历史记录已清空",
+    "description": "清空历史成功提示"
+  },
+  "history_clear_failed": {
+    "message": "清空历史记录失败",
+    "description": "清空历史失败提示"
+  },
+  "history_loading_failed": {
+    "message": "加载历史记录失败",
+    "description": "加载历史失败提示"
+  },
+  "history_open_failed": {
+    "message": "打开文档失败",
+    "description": "打开历史文档失败提示"
   }
 }

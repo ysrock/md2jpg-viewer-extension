@@ -15,12 +15,16 @@
     "message": "Guide",
     "description": "Libellé pour l'onglet guide"
   },
+  "tab_history": {
+    "message": "Historique",
+    "description": "Libellé pour l'onglet historique"
+  },
   "tab_cache": {
     "message": "Cache",
     "description": "Libellé pour l'onglet cache"
   },
   "tab_settings": {
-    "message": "Paramètres",
+    "message": "Réglages",
     "description": "Libellé pour l'onglet paramètres"
   },
   "popup_title": {
@@ -400,7 +404,7 @@
     "description": "Note d'aide pour le sélecteur"
   },
   "settings_save_btn": {
-    "message": "Enregistrer les paramètres",
+    "message": "Enregistrer",
     "description": "Bouton enregistrer"
   },
   "settings_reset_btn": {
@@ -426,5 +430,45 @@
   "settings_about_storage_label": {
     "message": "Moteur de stockage :",
     "description": "Libellé moteur de stockage"
+  },
+  "history_title": {
+    "message": "Documents récents",
+    "description": "Titre documents historique"
+  },
+  "history_description": {
+    "message": "Affiche les documents Markdown récemment ouverts, cliquez pour rouvrir",
+    "description": "Description documents historique"
+  },
+  "history_refresh": {
+    "message": "Actualiser",
+    "description": "Bouton actualiser historique"
+  },
+  "history_clear": {
+    "message": "Effacer l'historique",
+    "description": "Bouton effacer historique"
+  },
+  "history_items_empty": {
+    "message": "Pas encore d'historique",
+    "description": "Message liste historique vide"
+  },
+  "history_clear_confirm": {
+    "message": "Effacer tout l'historique ? Cette action ne peut pas être annulée.",
+    "description": "Message de confirmation effacer historique"
+  },
+  "history_clear_success": {
+    "message": "Historique effacé",
+    "description": "Message de succès effacer historique"
+  },
+  "history_clear_failed": {
+    "message": "Échec de l'effacement de l'historique",
+    "description": "Message d'échec effacer historique"
+  },
+  "history_loading_failed": {
+    "message": "Échec du chargement de l'historique",
+    "description": "Message d'échec charger historique"
+  },
+  "history_open_failed": {
+    "message": "Échec de l'ouverture du document",
+    "description": "Message d'échec ouvrir document historique"
   }
 }

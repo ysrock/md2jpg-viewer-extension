@@ -15,6 +15,10 @@
     "message": "Guide",
     "description": "Label for guide tab"
   },
+  "tab_history": {
+    "message": "History",
+    "description": "Label for history tab"
+  },
   "tab_cache": {
     "message": "Cache",
     "description": "Label for cache tab"
@@ -426,5 +430,45 @@
   "settings_about_storage_label": {
     "message": "Storage engine:",
     "description": "Label for storage engine"
+  },
+  "history_title": {
+    "message": "Recent documents",
+    "description": "History documents title"
+  },
+  "history_description": {
+    "message": "Shows recently opened Markdown documents, click to reopen",
+    "description": "History documents description"
+  },
+  "history_refresh": {
+    "message": "Refresh",
+    "description": "Refresh history button"
+  },
+  "history_clear": {
+    "message": "Clear history",
+    "description": "Clear history button"
+  },
+  "history_items_empty": {
+    "message": "No history yet",
+    "description": "Empty history list message"
+  },
+  "history_clear_confirm": {
+    "message": "Clear all history? This action cannot be undone.",
+    "description": "Clear history confirmation message"
+  },
+  "history_clear_success": {
+    "message": "History cleared",
+    "description": "Clear history success message"
+  },
+  "history_clear_failed": {
+    "message": "Failed to clear history",
+    "description": "Clear history failed message"
+  },
+  "history_loading_failed": {
+    "message": "Failed to load history",
+    "description": "Load history failed message"
+  },
+  "history_open_failed": {
+    "message": "Failed to open document",
+    "description": "Open history document failed message"
   }
 }

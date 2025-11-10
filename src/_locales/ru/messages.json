@@ -12,8 +12,12 @@
     "description": "Метка вкладки обзора"
   },
   "tab_guide": {
-    "message": "Руководство",
+    "message": "Гид",
     "description": "Метка вкладки руководства"
+  },
+  "tab_history": {
+    "message": "История",
+    "description": "Метка вкладки истории"
   },
   "tab_cache": {
     "message": "Кэш",
@@ -426,5 +430,45 @@
   "settings_about_storage_label": {
     "message": "Движок хранения:",
     "description": "Подпись движка"
+  },
+  "history_title": {
+    "message": "Недавние документы",
+    "description": "Заголовок документов истории"
+  },
+  "history_description": {
+    "message": "Показывает недавно открытые документы Markdown, нажмите, чтобы открыть снова",
+    "description": "Описание документов истории"
+  },
+  "history_refresh": {
+    "message": "Обновить",
+    "description": "Кнопка обновить историю"
+  },
+  "history_clear": {
+    "message": "Очистить историю",
+    "description": "Кнопка очистить историю"
+  },
+  "history_items_empty": {
+    "message": "История пока пуста",
+    "description": "Сообщение пустой список истории"
+  },
+  "history_clear_confirm": {
+    "message": "Очистить всю историю? Это действие нельзя отменить.",
+    "description": "Сообщение подтверждения очистки истории"
+  },
+  "history_clear_success": {
+    "message": "История очищена",
+    "description": "Сообщение успеха очистки истории"
+  },
+  "history_clear_failed": {
+    "message": "Не удалось очистить историю",
+    "description": "Сообщение ошибки очистки истории"
+  },
+  "history_loading_failed": {
+    "message": "Не удалось загрузить историю",
+    "description": "Сообщение ошибки загрузки истории"
+  },
+  "history_open_failed": {
+    "message": "Не удалось открыть документ",
+    "description": "Сообщение ошибки открытия документа истории"
   }
 }

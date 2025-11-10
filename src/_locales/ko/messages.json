@@ -15,6 +15,10 @@
     "message": "가이드",
     "description": "가이드 탭 라벨"
   },
+  "tab_history": {
+    "message": "기록",
+    "description": "기록 탭 라벨"
+  },
   "tab_cache": {
     "message": "캐시",
     "description": "캐시 탭 라벨"
@@ -426,5 +430,45 @@
   "settings_about_storage_label": {
     "message": "스토리지 엔진:",
     "description": "스토리지 라벨"
+  },
+  "history_title": {
+    "message": "최근 문서",
+    "description": "기록 문서 제목"
+  },
+  "history_description": {
+    "message": "최근에 연 Markdown 문서를 표시합니다. 클릭하여 다시 열기",
+    "description": "기록 문서 설명"
+  },
+  "history_refresh": {
+    "message": "새로 고침",
+    "description": "기록 새로 고침 버튼"
+  },
+  "history_clear": {
+    "message": "기록 지우기",
+    "description": "기록 지우기 버튼"
+  },
+  "history_items_empty": {
+    "message": "아직 기록이 없습니다",
+    "description": "빈 기록 목록 메시지"
+  },
+  "history_clear_confirm": {
+    "message": "모든 기록을 지우시겠습니까? 이 작업은 취소할 수 없습니다.",
+    "description": "기록 지우기 확인 메시지"
+  },
+  "history_clear_success": {
+    "message": "기록이 지워졌습니다",
+    "description": "기록 지우기 성공 메시지"
+  },
+  "history_clear_failed": {
+    "message": "기록 지우기에 실패했습니다",
+    "description": "기록 지우기 실패 메시지"
+  },
+  "history_loading_failed": {
+    "message": "기록 로드에 실패했습니다",
+    "description": "기록 로드 실패 메시지"
+  },
+  "history_open_failed": {
+    "message": "문서를 열지 못했습니다",
+    "description": "기록 문서 열기 실패 메시지"
   }
 }

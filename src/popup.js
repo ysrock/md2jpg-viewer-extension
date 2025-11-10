@@ -213,6 +213,8 @@ class PopupManager {
     const saveBtn = document.getElementById('save-settings');
     const resetBtn = document.getElementById('reset-settings');
     const demoBtn = document.getElementById('demo-link');
+    const refreshHistoryBtn = document.getElementById('refresh-history');
+    const clearHistoryBtn = document.getElementById('clear-history');
 
     if (refreshBtn) {
       refreshBtn.addEventListener('click', () => {
@@ -243,6 +245,18 @@ class PopupManager {
         this.openDemo();
       });
     }
+
+    if (refreshHistoryBtn) {
+      refreshHistoryBtn.addEventListener('click', () => {
+        this.loadHistoryData();
+      });
+    }
+
+    if (clearHistoryBtn) {
+      clearHistoryBtn.addEventListener('click', () => {
+        this.clearHistory();
+      });
+    }
   }
 
   switchTab(tabName) {
@@ -270,6 +284,8 @@ class PopupManager {
       this.loadCacheData();
     } else if (tabName === 'settings') {
       this.loadSettingsUI();
+    } else if (tabName === 'history') {
+      this.loadHistoryData();
     }
   }
 
@@ -464,6 +480,117 @@ class PopupManager {
     } catch (error) {
       console.error('Failed to clear cache:', error);
       this.showMessage(translate('cache_clear_failed'), 'error');
+    }
+  }
+
+  async loadHistoryData() {
+    const itemsEl = document.getElementById('history-items');
+    if (!itemsEl) {
+      return;
+    }
+
+    // Clear existing items
+    itemsEl.querySelectorAll('[data-cache-item="dynamic"]').forEach((element) => {
+      element.remove();
+    });
+    itemsEl.dataset.empty = 'true';
+
+    try {
+      const result = await chrome.storage.local.get(['markdownHistory']);
+      const history = result.markdownHistory || [];
+      
+      this.renderHistoryItems(history);
+
+    } catch (error) {
+      console.error('Failed to load history data:', error);
+      this.showMessage(translate('history_loading_failed'), 'error');
+    }
+  }
+
+  extractFileName(url) {
+    try {
+      const urlObj = new URL(url);
+      const pathname = urlObj.pathname;
+      const fileName = pathname.split('/').pop();
+      return decodeURIComponent(fileName);
+    } catch (error) {
+      return url;
+    }
+  }
+
+  renderHistoryItems(items) {
+    const itemsEl = document.getElementById('history-items');
+    const template = document.getElementById('history-item-template');
+
+    if (!itemsEl || !template) {
+      return;
+    }
+
+    if (items.length === 0) {
+      itemsEl.dataset.empty = 'true';
+      return;
+    }
+
+    itemsEl.dataset.empty = 'false';
+
+    const accessedLabel = translate('cache_item_accessed_label');
+    const locale = getUiLocale();
+    const fragment = document.createDocumentFragment();
+
+    items.forEach((item) => {
+      const historyItemEl = template.content.firstElementChild.cloneNode(true);
+      historyItemEl.dataset.cacheItem = 'dynamic';
+      historyItemEl.dataset.url = item.url;
+
+      const urlEl = historyItemEl.querySelector('.history-item-url');
+      const titleEl = historyItemEl.querySelector('.history-item-title');
+      const accessedEl = historyItemEl.querySelector('.history-item-accessed');
+
+      if (urlEl) {
+        urlEl.textContent = item.title;
+      }
+
+      if (titleEl) {
+        titleEl.textContent = item.url;
+      }
+
+      if (accessedEl && item.lastAccess) {
+        accessedEl.textContent = `${accessedLabel}: ${new Date(item.lastAccess).toLocaleString(locale)}`;
+      }
+
+      // Add click handler to open the document
+      historyItemEl.addEventListener('click', async () => {
+        try {
+          await chrome.tabs.create({
+            url: item.url,
+            active: true
+          });
+          window.close();
+        } catch (error) {
+          console.error('Failed to open document:', error);
+          this.showMessage(translate('history_open_failed'), 'error');
+        }
+      });
+
+      fragment.appendChild(historyItemEl);
+    });
+
+    itemsEl.appendChild(fragment);
+  }
+
+  async clearHistory() {
+    const confirmMessage = translate('history_clear_confirm');
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+
+    try {
+      await chrome.storage.local.set({ markdownHistory: [] });
+      this.loadHistoryData();
+      this.showMessage(translate('history_clear_success'), 'success');
+    } catch (error) {
+      console.error('Failed to clear history:', error);
+      this.showMessage(translate('history_clear_failed'), 'error');
     }
   }
 
