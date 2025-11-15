@@ -73,7 +73,8 @@ const applyI18nText = () => {
 // Backup proxy for cache operations via background script
 class BackgroundCacheProxy {
   constructor() {
-    this.maxItems = 1000;
+    // Don't hardcode maxItems, get it from actual stats
+    this.maxItems = null;
   }
 
   async getStats() {
@@ -89,11 +90,18 @@ class BackgroundCacheProxy {
       if (!response) {
         return {
           itemCount: 0,
-          maxItems: this.maxItems,
+          maxItems: 1000,
           totalSize: 0,
           totalSizeMB: '0.00',
           items: []
         };
+      }
+
+      // Update maxItems from actual cache manager stats
+      if (response.indexedDBCache && response.indexedDBCache.maxItems) {
+        this.maxItems = response.indexedDBCache.maxItems;
+      } else if (response.maxItems) {
+        this.maxItems = response.maxItems;
       }
 
       return response;
@@ -101,7 +109,7 @@ class BackgroundCacheProxy {
       console.error('Failed to get cache stats via background:', error);
       return {
         itemCount: 0,
-        maxItems: this.maxItems,
+        maxItems: this.maxItems || 1000,
         totalSize: 0,
         totalSizeMB: '0.00',
         items: [],
@@ -779,9 +787,8 @@ class PopupManager {
         this.loadCacheData();
       }
 
-      if (this.cacheManager && this.cacheManager.maxItems !== maxCacheItems) {
-        this.cacheManager.maxItems = maxCacheItems;
-      }
+      // No need to update cacheManager.maxItems here
+      // Background script will update it via storage.onChanged listener
 
       this.showMessage(translate('settings_save_success'), 'success');
     } catch (error) {

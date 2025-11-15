@@ -13,6 +13,10 @@ class ExtensionCacheManager {
 
     this.db = null;
     this.initPromise = this.initDB();
+
+    // Async cleanup state management
+    this.cleanupInProgress = false; // Flag to prevent concurrent cleanup
+    this.cleanupScheduled = false; // Flag to prevent multiple scheduled cleanups
   }
 
   /**
@@ -261,6 +265,7 @@ class ExtensionCacheManager {
 
   /**
    * Set cached item - Store in both memory and IndexedDB
+   * Cleanup is done asynchronously to avoid blocking insertion
    */
   async set(key, value, type = 'unknown') {
     // Add to memory cache immediately for fast access
@@ -282,14 +287,11 @@ class ExtensionCacheManager {
     };
 
     try {
-      // Check if we need to cleanup before adding
-      await this.cleanupIfNeeded();
-
-      // Create a fresh transaction for the put operation
+      // Insert immediately without waiting for cleanup
       const transaction = this.db.transaction([this.storeName], 'readwrite');
       const store = transaction.objectStore(this.storeName);
 
-      return new Promise((resolve, reject) => {
+      const result = await new Promise((resolve, reject) => {
         const request = store.put(item);
 
         request.onsuccess = () => {
@@ -313,6 +315,11 @@ class ExtensionCacheManager {
           reject(new Error('Transaction aborted'));
         };
       });
+
+      // Schedule async cleanup after successful insertion (non-blocking)
+      this._scheduleAsyncCleanup();
+
+      return result;
     } catch (error) {
       this._removeFromMemoryCache(key);
       throw error;
@@ -464,9 +471,140 @@ class ExtensionCacheManager {
   }
 
   /**
-   * Check if cleanup is needed and perform it
+   * Schedule async cleanup without blocking current operation
+   * Uses flags to prevent concurrent cleanup operations
    */
-  async cleanupIfNeeded() {
+  _scheduleAsyncCleanup() {
+    // Don't schedule if already scheduled or in progress
+    if (this.cleanupScheduled || this.cleanupInProgress) {
+      return;
+    }
+
+    this.cleanupScheduled = true;
+
+    // Run cleanup asynchronously after a short delay
+    // Short delay (10ms) to batch multiple insertions while keeping responsive
+    setTimeout(async () => {
+      this.cleanupScheduled = false;
+
+      // Double-check if cleanup is already running
+      if (this.cleanupInProgress) {
+        return;
+      }
+
+      try {
+        await this._asyncCleanup();
+      } catch (error) {
+        console.error('Async cleanup failed:', error);
+      }
+    }, 10);
+  }
+
+  /**
+   * Async cleanup that runs in background
+   * Only cleans up if cache exceeds maxItems, brings it down to exactly maxItems
+   */
+  async _asyncCleanup() {
+    // Prevent concurrent cleanup
+    if (this.cleanupInProgress) {
+      return;
+    }
+
+    this.cleanupInProgress = true;
+
+    try {
+      await this.ensureDB();
+
+      // First check item count
+      const transaction = this.db.transaction([this.storeName], 'readonly');
+      const store = transaction.objectStore(this.storeName);
+
+      const itemCount = await new Promise((resolve, reject) => {
+        const countRequest = store.count();
+        countRequest.onsuccess = () => resolve(countRequest.result);
+        countRequest.onerror = () => reject(countRequest.error);
+      });
+
+      // Only cleanup if we exceed maxItems
+      if (itemCount <= this.maxItems) {
+        return;
+      }
+
+      // Calculate how many items to delete to reach exactly maxItems
+      const itemsToDelete = itemCount - this.maxItems;
+
+      // Perform cleanup in a separate transaction
+      await new Promise((resolve, reject) => {
+        const cleanupTransaction = this.db.transaction([this.storeName], 'readwrite');
+        const cleanupStore = cleanupTransaction.objectStore(this.storeName);
+        const index = cleanupStore.index('accessTime');
+
+        const items = [];
+        const cursorRequest = index.openCursor();
+
+        cursorRequest.onsuccess = (event) => {
+          const cursor = event.target.result;
+          if (cursor) {
+            items.push({
+              key: cursor.value.key,
+              accessTime: cursor.value.accessTime
+            });
+            cursor.continue();
+          } else {
+            // Sort by access time (oldest first)
+            items.sort((a, b) => a.accessTime - b.accessTime);
+
+            // Delete oldest items to bring count down to maxItems
+            const keysToDelete = items.slice(0, itemsToDelete);
+            let deletedCount = 0;
+
+            if (keysToDelete.length === 0) {
+              resolve({ deletedCount: 0 });
+              return;
+            }
+
+            keysToDelete.forEach(item => {
+              // Remove from memory cache
+              this._removeFromMemoryCache(item.key, false);
+
+              // Delete from IndexedDB
+              const deleteRequest = cleanupStore.delete(item.key);
+
+              deleteRequest.onsuccess = () => {
+                deletedCount++;
+                if (deletedCount === keysToDelete.length) {
+                  resolve({ deletedCount });
+                }
+              };
+
+              deleteRequest.onerror = () => {
+                reject(deleteRequest.error);
+              };
+            });
+          }
+        };
+
+        cursorRequest.onerror = () => {
+          reject(cursorRequest.error);
+        };
+
+        cleanupTransaction.onerror = () => {
+          reject(cleanupTransaction.error);
+        };
+
+        cleanupTransaction.onabort = () => {
+          reject(new Error('Cleanup transaction aborted'));
+        };
+      });
+    } finally {
+      this.cleanupInProgress = false;
+    }
+  }
+
+  /**
+   * Check if cleanup is needed (readonly check only)
+   */
+  async _checkIfCleanupNeeded() {
     await this.ensureDB();
 
     const transaction = this.db.transaction([this.storeName], 'readonly');
@@ -475,13 +613,9 @@ class ExtensionCacheManager {
     return new Promise((resolve, reject) => {
       const countRequest = store.count();
 
-      countRequest.onsuccess = async () => {
+      countRequest.onsuccess = () => {
         const itemCount = countRequest.result;
-
-        if (itemCount >= this.maxItems) {
-          await this.cleanup();
-        }
-        resolve();
+        resolve(itemCount > this.maxItems);
       };
 
       countRequest.onerror = () => {
@@ -491,53 +625,32 @@ class ExtensionCacheManager {
   }
 
   /**
-   * Clean up old items based on LRU (Least Recently Used)
+   * Manual cleanup (for external calls)
+   * @deprecated For internal use, async cleanup is preferred
+   */
+  async cleanupIfNeeded() {
+    const needsCleanup = await this._checkIfCleanupNeeded();
+    if (needsCleanup) {
+      await this.cleanup();
+    }
+  }
+
+  /**
+   * Manual cleanup (synchronous version for external use)
+   * Brings cache down to maxItems by removing oldest items
    */
   async cleanup() {
-    await this.ensureDB();
+    // Use the async cleanup implementation to avoid code duplication
+    // But wait for it to complete (synchronous behavior for manual calls)
+    if (this.cleanupInProgress) {
+      // Wait for current cleanup to finish
+      while (this.cleanupInProgress) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      return;
+    }
 
-    const transaction = this.db.transaction([this.storeName], 'readwrite');
-    const store = transaction.objectStore(this.storeName);
-    const index = store.index('accessTime');
-
-    return new Promise((resolve, reject) => {
-      const items = [];
-      const request = index.openCursor();
-
-      request.onsuccess = (event) => {
-        const cursor = event.target.result;
-        if (cursor) {
-          items.push({
-            key: cursor.value.key,
-            accessTime: cursor.value.accessTime
-          });
-          cursor.continue();
-        } else {
-          // Sort by access time (oldest first) and delete excess items
-          items.sort((a, b) => a.accessTime - b.accessTime);
-
-          const itemsToDelete = Math.max(0, items.length - Math.floor(this.maxItems * 0.8)); // Keep 80% of max
-
-          if (itemsToDelete > 0) {
-            const deletePromises = items
-              .slice(0, itemsToDelete)
-              .map(item => this.delete(item.key));
-
-            Promise.all(deletePromises)
-              .then(() => {
-                resolve();
-              })
-              .catch(reject);
-          } else {
-            resolve();
-          }
-        }
-      };
-
-      request.onerror = () => {
-        reject(request.error);
-      };
-    });
+    await this._asyncCleanup();
   }
 }
 

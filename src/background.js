@@ -81,10 +81,15 @@ async function clearFileState(url) {
   }
 }
 
-// Initialize the global cache manager
+// Initialize the global cache manager with user settings
 async function initGlobalCacheManager() {
   try {
-    globalCacheManager = new ExtensionCacheManager();
+    // Load user settings to get maxCacheItems
+    const result = await chrome.storage.local.get(['markdownViewerSettings']);
+    const settings = result.markdownViewerSettings || {};
+    const maxCacheItems = settings.maxCacheItems || 1000;
+    
+    globalCacheManager = new ExtensionCacheManager(maxCacheItems);
     await globalCacheManager.initDB();
     return globalCacheManager;
   } catch (error) {
@@ -626,3 +631,19 @@ function handleDocxDownloadFinalize(message, sendResponse) {
     return false;
   }
 }
+
+// Listen for settings changes to update cache manager
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === 'local' && changes.markdownViewerSettings) {
+    const newSettings = changes.markdownViewerSettings.newValue;
+    if (newSettings && newSettings.maxCacheItems) {
+      const newMaxItems = newSettings.maxCacheItems;
+      
+      // Update global cache manager's maxItems
+      if (globalCacheManager) {
+        globalCacheManager.maxItems = newMaxItems;
+        console.log('[Background] Cache maxItems updated to:', newMaxItems);
+      }
+    }
+  }
+});
