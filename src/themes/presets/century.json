@@ -2,14 +2,14 @@
   "id": "century",
   "name": "演示文稿",
   "name_en": "Presentation",
-  "description": "Century Gothic 字体，简洁的演示风格",
-  "description_en": "Century Gothic font with clean presentation style",
+  "description": "Trebuchet MS 字体，简洁的演示风格",
+  "description_en": "Trebuchet MS font with clean presentation style",
   "author": "Markdown Viewer Extension",
   "version": "1.0.0",
   
   "fontScheme": {
     "body": {
-      "fontFamily": "Century Gothic",
+      "fontFamily": "Trebuchet MS",
       "fontSize": "12pt",
       "lineHeight": 1.6
     },
@@ -64,7 +64,7 @@
       }
     },
     "code": {
-      "fontFamily": "Consolas",
+      "fontFamily": "Monaco",
       "fontSize": "10pt",
       "background": "#f5f5f5"
     }

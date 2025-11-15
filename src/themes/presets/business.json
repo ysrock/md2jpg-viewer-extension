@@ -9,7 +9,7 @@
   
   "fontScheme": {
     "body": {
-      "fontFamily": "Calibri",
+      "fontFamily": "Arial",
       "fontSize": "11pt",
       "lineHeight": 1.4
     },
@@ -64,7 +64,7 @@
       }
     },
     "code": {
-      "fontFamily": "Consolas",
+      "fontFamily": "Monaco",
       "fontSize": "10pt",
       "background": "#f5f5f5"
     }

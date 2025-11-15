@@ -9,7 +9,7 @@
   
   "fontScheme": {
     "body": {
-      "fontFamily": "Cambria",
+      "fontFamily": "Palatino",
       "fontSize": "12pt",
       "lineHeight": 1.5
     },
@@ -64,7 +64,7 @@
       }
     },
     "code": {
-      "fontFamily": "Consolas",
+      "fontFamily": "Monaco",
       "fontSize": "10pt",
       "background": "#f6f8fa"
     }

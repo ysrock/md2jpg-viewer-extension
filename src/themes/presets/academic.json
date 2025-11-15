@@ -71,7 +71,7 @@
       }
     },
     "code": {
-      "fontFamily": "Consolas",
+      "fontFamily": "Monaco",
       "fontSize": "10pt",
       "background": "#f6f8fa"
     }
