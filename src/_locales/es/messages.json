@@ -236,8 +236,12 @@
     "description": "Muestra la versión de la extensión en el encabezado"
   },
   "settings_general_title": {
-    "message": "Ajustes de la extensión",
-    "description": "Encabezado de la sección de ajustes"
+    "message": "Configuración de extensión",
+    "description": "Encabezado de la sección de configuración"
+  },
+  "settings_interface_title": {
+    "message": "Configuración de interfaz",
+    "description": "Heading for interface settings section"
   },
   "settings_invalid_max_cache": {
     "message": "Introduce un tamaño válido entre {0} y {1}",
@@ -245,7 +249,11 @@
   },
   "settings_language_auto": {
     "message": "Coincidir con el idioma de Chrome",
-    "description": "Opción de idioma automático"
+    "description": "Opción para idioma automático"
+  },
+  "settings_language_changed": {
+    "message": "Idioma de interfaz cambiado",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -343,6 +351,10 @@
     "message": "简体中文",
     "description": "Opción para chino simplificado"
   },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Opción para chino tradicional"
+  },
   "settings_max_cache_label": {
     "message": "Máximo de elementos en caché:",
     "description": "Etiqueta para el campo de caché"
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Seleccionar tema:",
     "description": "Etiqueta para el selector de tema"
-  },
-  "settings_theme_title": {
-    "message": "Configuración de tema",
-    "description": "Título de la sección de tema"
   },
   "tab_cache": {
     "message": "Caché",

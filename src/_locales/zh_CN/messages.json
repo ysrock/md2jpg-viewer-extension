@@ -239,6 +239,10 @@
     "message": "扩展设置",
     "description": "设置区标题"
   },
+  "settings_interface_title": {
+    "message": "界面设置",
+    "description": "界面设置区标题"
+  },
   "settings_invalid_max_cache": {
     "message": "请输入 {0}-{1} 之间的有效缓存数量",
     "description": "最大缓存输入无效提示"
@@ -247,29 +251,33 @@
     "message": "跟随 Chrome 语言",
     "description": "自动语言选项"
   },
+  "settings_language_changed": {
+    "message": "界面语言已更改",
+    "description": "语言更改成功提示"
+  },
   "settings_language_da": {
     "message": "Dansk",
     "description": "Option for Danish locale"
   },
   "settings_language_de": {
-    "message": "德语",
-    "description": "德语选项"
+    "message": "Deutsch",
+    "description": "Option for German locale"
   },
   "settings_language_en": {
     "message": "English",
-    "description": "英文选项"
+    "description": "Option for English locale"
   },
   "settings_language_es": {
-    "message": "西班牙语",
-    "description": "西班牙语选项"
+    "message": "Español",
+    "description": "Option for Spanish locale"
   },
   "settings_language_fi": {
     "message": "Suomi",
     "description": "Option for Finnish locale"
   },
   "settings_language_fr": {
-    "message": "法语",
-    "description": "法语选项"
+    "message": "Français",
+    "description": "Option for French locale"
   },
   "settings_language_hi": {
     "message": "हिन्दी",
@@ -284,8 +292,8 @@
     "description": "Option for Italian locale"
   },
   "settings_language_ja": {
-    "message": "日语",
-    "description": "日语选项"
+    "message": "日本語",
+    "description": "Option for Japanese locale"
   },
   "settings_language_ko": {
     "message": "한국어",
@@ -320,8 +328,8 @@
     "description": "Option for Portuguese locale"
   },
   "settings_language_ru": {
-    "message": "俄语",
-    "description": "俄语选项"
+    "message": "Русский",
+    "description": "Option for Russian locale"
   },
   "settings_language_sv": {
     "message": "Svenska",
@@ -342,6 +350,10 @@
   "settings_language_zh_cn": {
     "message": "简体中文",
     "description": "中文选项"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "繁體中文選項"
   },
   "settings_max_cache_label": {
     "message": "最大缓存项目数:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "选择主题：",
     "description": "主题选择器标签"
-  },
-  "settings_theme_title": {
-    "message": "主题设置",
-    "description": "主题设置部分的标题"
   },
   "tab_cache": {
     "message": "缓存",

@@ -237,7 +237,11 @@
   },
   "settings_general_title": {
     "message": "Paramètres de l'extension",
-    "description": "En-tête de la section paramètres"
+    "description": "Titre de la section des paramètres"
+  },
+  "settings_interface_title": {
+    "message": "Paramètres d'interface",
+    "description": "Heading for interface settings section"
   },
   "settings_invalid_max_cache": {
     "message": "Entrez une valeur comprise entre {0} et {1}",
@@ -245,7 +249,11 @@
   },
   "settings_language_auto": {
     "message": "Suivre la langue de Chrome",
-    "description": "Option de langue automatique"
+    "description": "Option pour langue automatique"
+  },
+  "settings_language_changed": {
+    "message": "Langue d'interface modifiée",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -343,6 +351,10 @@
     "message": "简体中文",
     "description": "Option pour le chinois simplifié"
   },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Option pour le chinois traditionnel"
+  },
   "settings_max_cache_label": {
     "message": "Nombre maximal d'éléments en cache :",
     "description": "Libellé pour le champ cache"
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Sélectionner le thème :",
     "description": "Libellé du sélecteur de thème"
-  },
-  "settings_theme_title": {
-    "message": "Paramètres de thème",
-    "description": "Titre de la section thème"
   },
   "tab_cache": {
     "message": "Cache",

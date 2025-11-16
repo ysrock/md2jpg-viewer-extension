@@ -239,13 +239,21 @@
     "message": "Tilläggsinställningar",
     "description": "Heading for settings section"
   },
+  "settings_interface_title": {
+    "message": "Gränssnittsinställningar",
+    "description": "Heading for interface settings section"
+  },
   "settings_invalid_max_cache": {
     "message": "Ange en giltig cache-storlek mellan {0} och {1}",
     "description": "Shown when max cache input is invalid"
   },
   "settings_language_auto": {
-    "message": "Automatisk (webbläsarspråk)",
-    "description": "Option for auto-detect language"
+    "message": "Matcha Chromes språk",
+    "description": "Alternativ för automatiskt språk"
+  },
+  "settings_language_changed": {
+    "message": "Gränssnittspråk har ändrats",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -341,7 +349,11 @@
   },
   "settings_language_zh_cn": {
     "message": "简体中文",
-    "description": "Option for Chinese locale"
+    "description": "Alternativ för förenklad kinesiska"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Alternativ för traditionell kinesiska"
   },
   "settings_max_cache_label": {
     "message": "Maximalt antal cachade objekt:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Tema",
     "description": "Settings label for theme selection"
-  },
-  "settings_theme_title": {
-    "message": "Temainställningar",
-    "description": "Heading for theme settings section"
   },
   "tab_cache": {
     "message": "Cache",

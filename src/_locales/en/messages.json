@@ -239,6 +239,10 @@
     "message": "Extension settings",
     "description": "Heading for settings section"
   },
+  "settings_interface_title": {
+    "message": "Interface settings",
+    "description": "Heading for interface settings section"
+  },
   "settings_invalid_max_cache": {
     "message": "Enter a valid cache size between {0} and {1}",
     "description": "Shown when max cache input is invalid"
@@ -246,6 +250,10 @@
   "settings_language_auto": {
     "message": "Match Chrome language",
     "description": "Option for automatic locale"
+  },
+  "settings_language_changed": {
+    "message": "Interface language changed",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -343,6 +351,10 @@
     "message": "简体中文",
     "description": "Option for Simplified Chinese locale"
   },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Option for Traditional Chinese locale"
+  },
   "settings_max_cache_label": {
     "message": "Maximum cached items:",
     "description": "Label for max cache input"
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Select Theme:",
     "description": "Label for theme selector"
-  },
-  "settings_theme_title": {
-    "message": "Theme Settings",
-    "description": "Heading for theme settings section"
   },
   "tab_cache": {
     "message": "Cache",

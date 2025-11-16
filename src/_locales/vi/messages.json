@@ -236,16 +236,24 @@
     "description": "Shows the extension version in the header"
   },
   "settings_general_title": {
-    "message": "Cài đặt tiện ích",
-    "description": "Heading for settings section"
+    "message": "Cài đặt tiện ích mở rộng",
+    "description": "Tiêu đề phần cài đặt"
+  },
+  "settings_interface_title": {
+    "message": "Cài đặt giao diện",
+    "description": "Heading for interface settings section"
   },
   "settings_invalid_max_cache": {
     "message": "Nhập kích thước bộ nhớ đệm hợp lệ từ {0} đến {1}",
     "description": "Shown when max cache input is invalid"
   },
   "settings_language_auto": {
-    "message": "Khớp ngôn ngữ Chrome",
-    "description": "Option for automatic locale"
+    "message": "Khớp với ngôn ngữ Chrome",
+    "description": "Tùy chọn ngôn ngữ tự động"
+  },
+  "settings_language_changed": {
+    "message": "Đã thay đổi ngôn ngữ giao diện",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -341,7 +349,11 @@
   },
   "settings_language_zh_cn": {
     "message": "简体中文",
-    "description": "Option for Chinese locale"
+    "description": "Tùy chọn cho tiếng Trung giản thể"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Tùy chọn cho tiếng Trung phồn thể"
   },
   "settings_max_cache_label": {
     "message": "Số mục tối đa trong bộ nhớ đệm:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Chọn Giao diện:",
     "description": "Label for theme selector"
-  },
-  "settings_theme_title": {
-    "message": "Cài đặt Giao diện",
-    "description": "Heading for theme settings section"
   },
   "tab_cache": {
     "message": "Bộ nhớ đệm",

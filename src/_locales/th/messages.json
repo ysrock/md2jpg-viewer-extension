@@ -239,13 +239,21 @@
     "message": "การตั้งค่าส่วนขยาย",
     "description": "Heading for settings section"
   },
+  "settings_interface_title": {
+    "message": "การตั้งค่าอินเทอร์เฟซ",
+    "description": "Heading for interface settings section"
+  },
   "settings_invalid_max_cache": {
     "message": "ป้อนขนาดแคชที่ถูกต้องระหว่าง {0} ถึง {1}",
     "description": "Shown when max cache input is invalid"
   },
   "settings_language_auto": {
-    "message": "อัตโนมัติ (ภาษาเบราว์เซอร์)",
-    "description": "Option for auto-detect language"
+    "message": "ตรงกับภาษา Chrome",
+    "description": "ตัวเลือกภาษาอัตโนมัติ"
+  },
+  "settings_language_changed": {
+    "message": "เปลี่ยนภาษาอินเทอร์เฟซแล้ว",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -341,7 +349,11 @@
   },
   "settings_language_zh_cn": {
     "message": "简体中文",
-    "description": "Option for Chinese locale"
+    "description": "ตัวเลือกสำหรับภาษาจีนแบบง่าย"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "ตัวเลือกสำหรับภาษาจีนแบบดั้งเดิม"
   },
   "settings_max_cache_label": {
     "message": "รายการแคชสูงสุด:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "ธีม",
     "description": "Settings label for theme selection"
-  },
-  "settings_theme_title": {
-    "message": "การตั้งค่าธีม",
-    "description": "Heading for theme settings section"
   },
   "tab_cache": {
     "message": "แคช",

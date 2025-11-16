@@ -237,7 +237,11 @@
   },
   "settings_general_title": {
     "message": "Impostazioni estensione",
-    "description": "Heading for settings section"
+    "description": "Titolo della sezione impostazioni"
+  },
+  "settings_interface_title": {
+    "message": "Impostazioni interfaccia",
+    "description": "Heading for interface settings section"
   },
   "settings_invalid_max_cache": {
     "message": "Inserisci una dimensione cache valida tra {0} e {1}",
@@ -245,7 +249,11 @@
   },
   "settings_language_auto": {
     "message": "Usa lingua di Chrome",
-    "description": "Option for automatic locale"
+    "description": "Opzione per lingua automatica"
+  },
+  "settings_language_changed": {
+    "message": "Lingua dell'interfaccia modificata",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -341,7 +349,11 @@
   },
   "settings_language_zh_cn": {
     "message": "简体中文",
-    "description": "Option for Chinese locale"
+    "description": "Opzione per il cinese semplificato"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Opzione per il cinese tradizionale"
   },
   "settings_max_cache_label": {
     "message": "Massimo elementi in cache:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Seleziona Tema:",
     "description": "Label for theme selector"
-  },
-  "settings_theme_title": {
-    "message": "Impostazioni Tema",
-    "description": "Heading for theme settings section"
   },
   "tab_cache": {
     "message": "Cache",

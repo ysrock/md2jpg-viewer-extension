@@ -441,27 +441,7 @@
       <!-- Settings tab -->
       <div class="tab-panel" id="settings">
         <div class="info-section">
-          <h3 data-i18n="settings_theme_title">Theme Settings</h3>
-          <div style="margin: 10px 0;">
-            <label for="theme-selector" style="display: block; margin-bottom: 5px; font-size: 12px;"
-              data-i18n="settings_theme_label">Select Theme</label>
-            <select id="theme-selector"
-              style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #d1d9e6; background: #ffffff; color: #1f2933;">
-              <option value="default">Loading themes...</option>
-            </select>
-            <div id="theme-description" style="font-size: 11px; margin-top: 4px; color: #6b7280;"></div>
-          </div>
-        </div>
-
-        <div class="info-section">
-          <h3 data-i18n="settings_general_title"></h3>
-          <div style="margin: 10px 0;">
-            <label style="display: block; margin-bottom: 5px; font-size: 12px;"
-              data-i18n="settings_max_cache_label"></label>
-            <input type="number" id="max-cache-items" min="100" max="5000" step="100"
-              style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #d1d9e6; background: #ffffff; color: #1f2933;">
-          </div>
-
+          <h3 data-i18n="settings_interface_title">界面设置</h3>
           <div style="margin: 10px 0;">
             <label for="interface-language" style="display: block; margin-bottom: 5px; font-size: 12px;"
               data-i18n="settings_language_label"></label>
@@ -470,6 +450,7 @@
               <option value="auto" data-i18n="settings_language_auto"></option>
               <option value="en" data-i18n="settings_language_en"></option>
               <option value="zh_CN" data-i18n="settings_language_zh_cn"></option>
+              <option value="zh_TW" data-i18n="settings_language_zh_tw"></option>
               <option value="es" data-i18n="settings_language_es"></option>
               <option value="ja" data-i18n="settings_language_ja"></option>
               <option value="fr" data-i18n="settings_language_fr"></option>
@@ -492,6 +473,26 @@
               <option value="fi" data-i18n="settings_language_fi"></option>
             </select>
             <div style="font-size: 11px; margin-top: 4px; color: #6b7280;" data-i18n="settings_language_note"></div>
+          </div>
+
+          <div style="margin: 10px 0;">
+            <label for="theme-selector" style="display: block; margin-bottom: 5px; font-size: 12px;"
+              data-i18n="settings_theme_label">Select Theme</label>
+            <select id="theme-selector"
+              style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #d1d9e6; background: #ffffff; color: #1f2933;">
+              <option value="default">Loading themes...</option>
+            </select>
+            <div id="theme-description" style="font-size: 11px; margin-top: 4px; color: #6b7280;"></div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h3 data-i18n="settings_general_title"></h3>
+          <div style="margin: 10px 0;">
+            <label style="display: block; margin-bottom: 5px; font-size: 12px;"
+              data-i18n="settings_max_cache_label"></label>
+            <input type="number" id="max-cache-items" min="100" max="5000" step="100"
+              style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid #d1d9e6; background: #ffffff; color: #1f2933;">
           </div>
 
           <div style="margin: 15px 0;">

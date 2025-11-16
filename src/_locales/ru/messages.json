@@ -239,13 +239,21 @@
     "message": "Настройки расширения",
     "description": "Заголовок раздела настроек"
   },
+  "settings_interface_title": {
+    "message": "Настройки интерфейса",
+    "description": "Heading for interface settings section"
+  },
   "settings_invalid_max_cache": {
     "message": "Введите допустимое значение между {0} и {1}",
     "description": "Сообщение при недопустимом значении"
   },
   "settings_language_auto": {
-    "message": "Как в Chrome",
-    "description": "Опция автоматического языка"
+    "message": "Использовать язык Chrome",
+    "description": "Опция для автоматического определения языка"
+  },
+  "settings_language_changed": {
+    "message": "Язык интерфейса изменён",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -341,7 +349,11 @@
   },
   "settings_language_zh_cn": {
     "message": "简体中文",
-    "description": "Опция китайского (упрощенного)"
+    "description": "Опция упрощённого китайского"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Опция традиционного китайского"
   },
   "settings_max_cache_label": {
     "message": "Максимум элементов в кэше:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Выбрать тему:",
     "description": "Подпись для выбора темы"
-  },
-  "settings_theme_title": {
-    "message": "Настройки темы",
-    "description": "Заголовок раздела темы"
   },
   "tab_cache": {
     "message": "Кэш",

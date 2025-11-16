@@ -237,15 +237,23 @@
   },
   "settings_general_title": {
     "message": "एक्सटेंशन सेटिंग्स",
-    "description": "Heading for settings section"
+    "description": "सेटिंग्स अनुभाग का शीर्षक"
+  },
+  "settings_interface_title": {
+    "message": "इंटरफेस सेटिंग्स",
+    "description": "Heading for interface settings section"
   },
   "settings_invalid_max_cache": {
     "message": "{0} और {1} के बीच एक मान्य कैश आकार दर्ज करें",
     "description": "Shown when max cache input is invalid"
   },
   "settings_language_auto": {
-    "message": "Chrome भाषा से मिलान करें",
-    "description": "Option for automatic locale"
+    "message": "Chrome भाषा से मिलाएँ",
+    "description": "स्वचालित भाषा विकल्प"
+  },
+  "settings_language_changed": {
+    "message": "इंटरफेस भाषा बदल दी गई",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -341,7 +349,11 @@
   },
   "settings_language_zh_cn": {
     "message": "简体中文",
-    "description": "Option for Chinese locale"
+    "description": "सरलीकृत चीनी के लिए विकल्प"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "पारंपरिक चीनी के लिए विकल्प"
   },
   "settings_max_cache_label": {
     "message": "अधिकतम कैश आइटम:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "थीम चुनें:",
     "description": "Label for theme selector"
-  },
-  "settings_theme_title": {
-    "message": "थीम सेटिंग्स",
-    "description": "Heading for theme settings section"
   },
   "tab_cache": {
     "message": "कैश",

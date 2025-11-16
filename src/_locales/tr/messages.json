@@ -239,6 +239,10 @@
     "message": "Uzantı ayarları",
     "description": "Heading for settings section"
   },
+  "settings_interface_title": {
+    "message": "Arayüz ayarları",
+    "description": "Heading for interface settings section"
+  },
   "settings_invalid_max_cache": {
     "message": "{0} ile {1} arasında geçerli bir önbellek boyutu girin",
     "description": "Shown when max cache input is invalid"
@@ -246,6 +250,10 @@
   "settings_language_auto": {
     "message": "Chrome dilini kullan",
     "description": "Option for automatic locale"
+  },
+  "settings_language_changed": {
+    "message": "Arayüz dili değiştirildi",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -341,7 +349,11 @@
   },
   "settings_language_zh_cn": {
     "message": "简体中文",
-    "description": "Option for Chinese locale"
+    "description": "Basitleştirilmiş Çince için seçenek"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Geleneksel Çince için seçenek"
   },
   "settings_max_cache_label": {
     "message": "Maksimum önbellekteki öğe sayısı:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Tema Seç:",
     "description": "Label for theme selector"
-  },
-  "settings_theme_title": {
-    "message": "Tema Ayarları",
-    "description": "Heading for theme settings section"
   },
   "tab_cache": {
     "message": "Önbellek",

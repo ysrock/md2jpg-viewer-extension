@@ -621,6 +621,32 @@ class PopupManager {
     const localeSelect = document.getElementById('interface-language');
     if (localeSelect) {
       localeSelect.value = this.settings.preferredLocale || DEFAULT_SETTING_LOCALE;
+      
+      // Add change listener for immediate language change (only once)
+      if (!localeSelect.dataset.listenerAdded) {
+        localeSelect.dataset.listenerAdded = 'true';
+        localeSelect.addEventListener('change', async (event) => {
+          const newLocale = event.target.value;
+          try {
+            this.settings.preferredLocale = newLocale;
+            await chrome.storage.local.set({
+              markdownViewerSettings: this.settings
+            });
+            
+            await Localization.setPreferredLocale(newLocale);
+            chrome.runtime.sendMessage({ type: 'localeChanged', locale: newLocale }).catch(() => { });
+            applyI18nText();
+            
+            // Reload themes to update names
+            this.loadThemes();
+            
+            this.showMessage(translate('settings_language_changed'), 'success');
+          } catch (error) {
+            console.error('Failed to change language:', error);
+            this.showMessage(translate('settings_save_failed'), 'error');
+          }
+        });
+      }
     }
     
     // Load themes
@@ -756,8 +782,6 @@ class PopupManager {
     try {
       const maxCacheItemsEl = document.getElementById('max-cache-items');
       const maxCacheItems = parseInt(maxCacheItemsEl.value, 10);
-      const localeSelect = document.getElementById('interface-language');
-      const preferredLocale = localeSelect ? localeSelect.value : DEFAULT_SETTING_LOCALE;
 
       if (Number.isNaN(maxCacheItems) || maxCacheItems < 100 || maxCacheItems > 5000) {
         this.showMessage(
@@ -768,16 +792,10 @@ class PopupManager {
       }
 
       this.settings.maxCacheItems = maxCacheItems;
-      this.settings.preferredLocale = preferredLocale;
 
       await chrome.storage.local.set({
         markdownViewerSettings: this.settings
       });
-
-      await Localization.setPreferredLocale(preferredLocale);
-      chrome.runtime.sendMessage({ type: 'localeChanged', locale: preferredLocale }).catch(() => { });
-      applyI18nText();
-      this.loadSettingsUI();
 
       if (this.currentTab === 'cache') {
         this.loadCacheData();

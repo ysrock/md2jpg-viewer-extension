@@ -239,13 +239,21 @@
     "message": "확장 프로그램 설정",
     "description": "설정 섹션 제목"
   },
+  "settings_interface_title": {
+    "message": "인터페이스 설정",
+    "description": "Heading for interface settings section"
+  },
   "settings_invalid_max_cache": {
     "message": "{0} 이상 {1} 이하의 값을 입력하세요",
     "description": "잘못된 값 메시지"
   },
   "settings_language_auto": {
-    "message": "Chrome 언어와 동일",
+    "message": "Chrome 언어와 일치",
     "description": "자동 언어 옵션"
+  },
+  "settings_language_changed": {
+    "message": "인터페이스 언어가 변경되었습니다",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -341,7 +349,11 @@
   },
   "settings_language_zh_cn": {
     "message": "简体中文",
-    "description": "중국어(간체) 옵션"
+    "description": "간체 중국어 옵션"
+  },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "번체 중국어 옵션"
   },
   "settings_max_cache_label": {
     "message": "최대 캐시 항목 수:",
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "테마 선택:",
     "description": "테마 선택 라벨"
-  },
-  "settings_theme_title": {
-    "message": "테마 설정",
-    "description": "테마 설정 섹션 제목"
   },
   "tab_cache": {
     "message": "캐시",

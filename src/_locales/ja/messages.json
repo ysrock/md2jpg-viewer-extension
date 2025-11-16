@@ -239,13 +239,21 @@
     "message": "拡張機能の設定",
     "description": "設定セクションの見出し"
   },
+  "settings_interface_title": {
+    "message": "インターフェース設定",
+    "description": "Heading for interface settings section"
+  },
   "settings_invalid_max_cache": {
     "message": "{0} から {1} の範囲で有効な値を入力してください",
     "description": "不正な値のメッセージ"
   },
   "settings_language_auto": {
-    "message": "Chrome の言語に合わせる",
+    "message": "Chrome の言語と一致",
     "description": "自動言語のオプション"
+  },
+  "settings_language_changed": {
+    "message": "インターフェース言語が変更されました",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -343,6 +351,10 @@
     "message": "简体中文",
     "description": "簡体字中国語のオプション"
   },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "繁体字中国語のオプション"
+  },
   "settings_max_cache_label": {
     "message": "キャッシュ最大件数:",
     "description": "キャッシュ項目数のラベル"
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "テーマを選択：",
     "description": "テーマ選択のラベル"
-  },
-  "settings_theme_title": {
-    "message": "テーマ設定",
-    "description": "テーマ設定セクションの見出し"
   },
   "tab_cache": {
     "message": "キャッシュ",

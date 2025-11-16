@@ -237,15 +237,23 @@
   },
   "settings_general_title": {
     "message": "Erweiterungseinstellungen",
-    "description": "Überschrift der Einstellungen"
+    "description": "Überschrift des Einstellungsabschnitts"
+  },
+  "settings_interface_title": {
+    "message": "Oberflächeneinstellungen",
+    "description": "Heading for interface settings section"
   },
   "settings_invalid_max_cache": {
     "message": "Geben Sie einen Wert zwischen {0} und {1} ein",
     "description": "Meldung bei ungültigem Wert"
   },
   "settings_language_auto": {
-    "message": "Chrome-Sprache verwenden",
-    "description": "Option für automatische Sprache"
+    "message": "Chrome-Sprache übernehmen",
+    "description": "Option für automatische Spracheinstellung"
+  },
+  "settings_language_changed": {
+    "message": "Oberflächensprache geändert",
+    "description": "Toast when language is changed successfully"
   },
   "settings_language_da": {
     "message": "Dansk",
@@ -343,6 +351,10 @@
     "message": "简体中文",
     "description": "Option für vereinfachtes Chinesisch"
   },
+  "settings_language_zh_tw": {
+    "message": "繁體中文",
+    "description": "Option für traditionelles Chinesisch"
+  },
   "settings_max_cache_label": {
     "message": "Maximale Cache-Einträge:",
     "description": "Beschriftung für Cache-Feld"
@@ -382,10 +394,6 @@
   "settings_theme_label": {
     "message": "Theme auswählen:",
     "description": "Beschriftung für Theme-Auswahl"
-  },
-  "settings_theme_title": {
-    "message": "Theme-Einstellungen",
-    "description": "Überschrift für Theme-Einstellungen"
   },
   "tab_cache": {
     "message": "Cache",
