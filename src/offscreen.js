@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // Store current theme configuration
 let currentThemeConfig = null;
 
+// Render queue to prevent concurrent rendering
+let renderQueue = Promise.resolve();
+
 // Establish connection with background script for lifecycle monitoring
 const port = chrome.runtime.connect({ name: 'offscreen' });
 
@@ -74,11 +77,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       return; // Don't send response, let background handle it
     }
     
-    handleRender(message).then(result => {
-      sendResponse(result);
+    // Enqueue render task to prevent concurrent rendering
+    renderQueue = renderQueue.then(async () => {
+      try {
+        const result = await handleRender(message);
+        sendResponse(result);
+      } catch (error) {
+        sendResponse({ error: error.message });
+      }
     }).catch(error => {
+      console.error('Render queue error:', error);
       sendResponse({ error: error.message });
     });
+    
     return true;
   }
 });
