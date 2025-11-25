@@ -14,6 +14,8 @@ import { VegaLitePlugin } from './vegalite-plugin.js';
 import { VegaPlugin } from './vega-plugin.js';
 import { HtmlPlugin } from './html-plugin.js';
 import { SvgPlugin } from './svg-plugin.js';
+import { replacePlaceholderWithImage } from './plugin-html-utils.js';
+import { createErrorHTML } from './plugin-content-utils.js';
 
 // Plugin instances array
 // Order matters: HTML plugin first to process raw HTML before other plugins generate placeholders
@@ -67,7 +69,7 @@ export function registerRemarkPlugins(processor, renderer, asyncTask, translate,
                   const extraParams = plugin.getRenderParams();
                   const pngResult = await renderer.render(plugin.type, code, extraParams);
                   if (pngResult) {
-                    plugin.replacePlaceholder(id, pngResult);
+                    replacePlaceholderWithImage(id, pngResult, plugin.type, plugin.isInline());
                   } else {
                     const placeholder = document.getElementById(id);
                     if (placeholder) {
@@ -75,7 +77,13 @@ export function registerRemarkPlugins(processor, renderer, asyncTask, translate,
                     }
                   }
                 } catch (error) {
-                  plugin.showError(id, error, translate, escapeHtml);
+                  const placeholder = document.getElementById(id);
+                  if (placeholder) {
+                    const errorDetail = escapeHtml(error.message || '');
+                    const localizedError = translate('async_processing_error', [plugin.type, errorDetail]) 
+                      || `${plugin.type} error: ${errorDetail}`;
+                    placeholder.outerHTML = createErrorHTML(localizedError);
+                  }
                 }
               },
               plugin.createTaskData(content),
@@ -153,6 +161,9 @@ export function getPluginTypes() {
  * @returns {Promise<object|null>} DOCX element (Paragraph/ImageRun) or null if no plugin handles this node
  */
 export async function convertNodeToDOCX(node, renderer, docxHelpers, progressCallback = null) {
+  // Import conversion function
+  const { convertPluginResultToDOCX } = await import('../exporters/docx-exporter.js');
+  
   // Find plugin that can handle this node
   const plugin = getPluginForNode(node);
   if (!plugin) {
@@ -170,8 +181,11 @@ export async function convertNodeToDOCX(node, renderer, docxHelpers, progressCal
     content = await plugin.fetchContent(content);
   }
 
-  // Convert to DOCX using plugin
-  const result = await plugin.convertToDOCX(renderer, content, docxHelpers);
+  // Render to unified format
+  const renderResult = await plugin.renderToCommon(renderer, content);
+  
+  // Convert to DOCX
+  const result = convertPluginResultToDOCX(renderResult, plugin.type);
 
   // Report progress if callback provided
   if (progressCallback) {

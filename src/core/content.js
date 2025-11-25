@@ -16,6 +16,7 @@ import Localization, { DEFAULT_SETTING_LOCALE } from '../utils/localization.js';
 import themeManager from '../utils/theme-manager.js';
 import { loadAndApplyTheme } from '../utils/theme-to-css.js';
 import { registerRemarkPlugins, getPluginByType } from '../plugins/index.js';
+import { createPlaceholderElement } from '../plugins/plugin-content-utils.js';
 
 async function initializeContentScript() {
 
@@ -476,8 +477,13 @@ ${truncatedMarkup}`;
 
     asyncTaskQueue.push(task);
 
-    // Generate placeholder using plugin
-    const placeholderHtml = plugin.createPlaceholderElement(placeholderId, translate);
+    // Generate placeholder using utility function
+    const placeholderHtml = createPlaceholderElement(
+      placeholderId,
+      type,
+      plugin?.isInline() || false,
+      translate
+    );
 
     return {
       task, // Return task object for business logic control
